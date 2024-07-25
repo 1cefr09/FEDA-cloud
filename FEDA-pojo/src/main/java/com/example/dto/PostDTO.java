@@ -2,8 +2,10 @@ package com.example.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class PostDTO {
+public class PostDTO implements Serializable {
     private Long id;
 
     private String title;
