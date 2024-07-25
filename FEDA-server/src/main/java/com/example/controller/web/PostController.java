@@ -1,8 +1,7 @@
 package com.example.controller.web;
 
 /**
- * 用户
+ * 发帖
  */
-
-public class UserController {
+public class PostController {
 }

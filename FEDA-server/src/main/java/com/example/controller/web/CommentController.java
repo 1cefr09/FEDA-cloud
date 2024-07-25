@@ -1,8 +1,8 @@
 package com.example.controller.web;
 
 /**
- * 用户
+ * 跟帖
  */
 
-public class UserController {
+public class CommentController {
 }
