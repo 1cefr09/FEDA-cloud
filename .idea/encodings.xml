@@ -7,6 +7,8 @@
     <file url="file://$PROJECT_DIR$/FEDA-pojo/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/FEDA-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/FEDA-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/FEDA-server/src/main/resources/application-dev.yml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/FEDA-server/src/main/resources/application.yml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
