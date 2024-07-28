@@ -13,7 +13,7 @@ public class User {
 
     private String email;
 
-    private String role;
+    private String role = "USER";
 
     private LocalDateTime createTime;
 

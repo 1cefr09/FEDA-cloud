@@ -9,5 +9,12 @@ import java.io.Serializable;
  */
 @Data
 public class UserDTO implements Serializable {
-    private String code;
+
+    private String Username;
+
+    private String password;
+
+    private String passwordRepeat;
+
+    private String email;
 }
