@@ -4,20 +4,17 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-/**
- * 发帖实体类
- */
 @Data
-public class Post {
+public class AdminAction {
     private Long id;
 
-    private String title;
+    private Long postId;
+
+    private Long parentId;
 
     private String content;
 
     private Long authorId;
 
     private LocalDateTime createTime;
-
-    private LocalDateTime updateTime;
 }

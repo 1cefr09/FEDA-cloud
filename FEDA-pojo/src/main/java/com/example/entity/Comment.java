@@ -11,15 +11,12 @@ import java.time.LocalDateTime;
 public class Comment {
     private Long id;
 
-    private Long postId;
+    private Long adminId;
 
-    private Long parentId;
+    private String actionType;
 
-    private String content;
+    private Long targetId;
 
-    private Long authorId;
-
-    private LocalDateTime createTime;
-    //1231231git add .
+    private LocalDateTime timestamp;
 
 }
