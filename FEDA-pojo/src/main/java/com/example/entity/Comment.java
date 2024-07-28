@@ -15,6 +15,8 @@ public class Comment {
 
     private String actionType;
 
+    private boolean isBanned = false;
+
     private Long targetId;
 
     private LocalDateTime timestamp;

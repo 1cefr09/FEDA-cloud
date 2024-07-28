@@ -17,6 +17,8 @@ public class Post {
 
     private Long authorId;
 
+    private boolean isBanned = false;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

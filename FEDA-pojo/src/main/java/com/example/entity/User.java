@@ -15,6 +15,8 @@ public class User {
 
     private String role = "USER";
 
+    private boolean isBanned = false;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
