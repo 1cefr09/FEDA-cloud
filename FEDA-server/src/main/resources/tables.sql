@@ -3,14 +3,14 @@ CREATE database feda;
 USE feda;
 
 CREATE TABLE user (
-                      id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                      username VARCHAR(50) NOT NULL UNIQUE,
-                      password VARCHAR(255) NOT NULL,
-                      email VARCHAR(255),
-                      role VARCHAR(20) NOT NULL,
-                      is_banned BOOLEAN NOT NULL DEFAULT FALSE,
-                      create_time DATETIME,
-                      update_time DATETIME
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    role VARCHAR(20) NOT NULL,
+    is_banned BOOLEAN NOT NULL DEFAULT FALSE,
+    create_time DATETIME,
+    update_time DATETIME
 );
 
 create table post
@@ -40,9 +40,9 @@ CREATE TABLE comment
 
 
 CREATE TABLE admin_action (
-                              id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                              admin_id BIGINT NOT NULL,
-                              action_type VARCHAR(255) NOT NULL,
-                              target_id BIGINT NOT NULL,
-                              timestamp DATETIME NOT NULL
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    admin_id BIGINT NOT NULL,
+    action_type VARCHAR(255) NOT NULL,
+    target_id BIGINT NOT NULL,
+    timestamp DATETIME NOT NULL
 );
