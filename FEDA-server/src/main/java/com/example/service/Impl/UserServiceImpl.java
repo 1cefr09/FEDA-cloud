@@ -12,7 +12,7 @@ import com.example.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,6 +25,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
 
         BeanUtils.copyProperties(userDTO,user);
+        String originalPassword = userDTO.getPassword();
+        user.setPassword(DigestUtils.sha256Hex(originalPassword)); //保存加密后的密码
         userMapper.insert(user);
 
     }
@@ -41,16 +43,17 @@ public class UserServiceImpl implements UserService {
             throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
 
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
+//        password = DigestUtils.md5DigestAsHex(password.getBytes());//苍穹外卖使用的MD5加密方法，此处使用的是commons-codec的SHA256加密方法
+        password = DigestUtils.sha256Hex(password);
         if (!password.equals(user.getPassword())){
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
 
         //此处检测账户是否被ban使用boolean判断，外卖中使用用户状态所处的不同数字来判断
-        if (user.isBanned()){
-            throw new AccountBannedException(MessageConstant.ACCOUNT_BANNED);
-
-        }
+//        if (user.isBanned()){
+//            throw new AccountBannedException(MessageConstant.ACCOUNT_BANNED);
+//
+//        }
         return user;
 
     }

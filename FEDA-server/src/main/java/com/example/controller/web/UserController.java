@@ -46,7 +46,7 @@ public class UserController {
             return Result.error("两次密码不一致");
         }
 
-        log.info("用户注册");
+        log.info("用户注册{}", userDTO);
         userService.UserRegister(userDTO);
         return Result.success();
 
