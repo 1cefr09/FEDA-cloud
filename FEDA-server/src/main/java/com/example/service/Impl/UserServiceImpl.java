@@ -7,6 +7,7 @@ import com.example.entity.User;
 import com.example.exception.AccountBannedException;
 import com.example.exception.AccountNotFoundException;
 import com.example.exception.PasswordErrorException;
+import com.example.exception.UsernameRepetitionException;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +24,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void UserRegister(UserDTO userDTO){
         User user = new User();
+
+        //检查是否有重复用户名
+        if (userMapper.getByUsername(userDTO.getUsername()) != null){
+            throw new UsernameRepetitionException(MessageConstant.USERNAME_EXIST);
+        }
 
         BeanUtils.copyProperties(userDTO,user);
         String originalPassword = userDTO.getPassword();
