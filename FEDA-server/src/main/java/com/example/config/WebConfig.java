@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -22,5 +23,16 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/**")             //设置拦截路径
                 .excludePathPatterns("/api/user/login","/api/user/register");          //设置放行路径
     }
+
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {//跨域配置
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8081") // 允许的源
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 允许的方法
+                .allowedHeaders("*") // 允许的请求头
+                .allowCredentials(true); // 允许发送凭证
+    }
+
 
 }
