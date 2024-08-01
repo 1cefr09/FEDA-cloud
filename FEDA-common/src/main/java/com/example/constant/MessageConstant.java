@@ -9,5 +9,6 @@ public class MessageConstant {
     public static final String LOGIN_FAILED = "登录失败";
     public static final String PASSWORD_EDIT_FAILED = "密码修改失败";
 
+    public static final String ALREDY_EXISTS = "已经存在";
     public static final String USERNAME_EXIST = "用户名已存在";
 }

@@ -41,10 +41,12 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperation(value = "用户注册")
     public Result UserRegister(@RequestBody UserDTO userDTO){
+
         //判断两次密码是否一致
-        if (!Objects.equals(userDTO.getPassword(), userDTO.getPasswordRepeat())){
-            return Result.error("两次密码不一致");
-        }
+       // if (!Objects.equals(userDTO.getPassword(), userDTO.getPasswordRepeat())){
+       //     return Result.error("两次密码不一致");
+      //  }
+
 
         log.info("用户注册{}", userDTO);
         userService.UserRegister(userDTO);
