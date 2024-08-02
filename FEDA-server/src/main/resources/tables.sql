@@ -13,11 +13,26 @@ CREATE TABLE user (
     update_time DATETIME
 );
 
+INSERT INTO user (username, password, role, create_time, update_time)
+VALUES ('root', '1234', 'ROOT', NOW(), NOW());
+
+CREATE TABLE category (
+                          id INT PRIMARY KEY AUTO_INCREMENT,
+                          category_name VARCHAR(100) NOT NULL UNIQUE,
+                          is_banned BOOLEAN NOT NULL DEFAULT FALSE,
+                          create_time DATETIME,
+                          update_time DATETIME
+);
+
+INSERT INTO category (category_name, is_banned, create_time, update_time)
+VALUES ('主板块', FALSE, NOW(), NOW());
+
 create table post
 (
     id BIGINT PRIMARY KEY AUTO_INCREMENT comment'帖子id',
     title VARCHAR(255) NOT NULL COMMENT'帖子标题',
     content TEXT NOT NULL COMMENT'帖子内容',
+    category_id INT NOT NULL DEFAULT 1 comment '板块id',
     author_id BIGINT NOT NULL COMMENT'作者id',
     is_banned BOOLEAN NOT NULL DEFAULT FALSE,
     create_time DATETIME NOT NULL COMMENT'创建时间',

@@ -22,10 +22,20 @@ public class GlobalExceptionHandler {
 
 
 //    @ExceptionHandler(BaseException.class)
-//    public Result handleBaseException(BaseException ex){
+//    public ResponseEntity<Result> handleBaseException(BaseException ex){
 //        String message = ex.getMessage();
-//        return Result.error(message);
+//        Result result = Result.error(message);
+//        if (ex instanceof UsernameAlreadyExistException){
+//            return new ResponseEntity<>(result, HttpStatus.CONFLICT);}
+//        else if (ex instanceof AccountNotFoundException){
+//            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+//        }
+//        else if (ex instanceof PasswordErrorException){
+//            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+//        }
+//        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
 //    }
+
     @ExceptionHandler(UsernameAlreadyExistException.class)
     public ResponseEntity<Result> handleUsernameAlreadyExistException(UsernameAlreadyExistException ex){
         String message = ex.getMessage();
@@ -46,5 +56,12 @@ public class GlobalExceptionHandler {
         String message = ex.getMessage();
         Result result = Result.error(message);
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BaseException.class)//处理其它异常
+    public ResponseEntity<Result> handleBaseException(BaseException ex){
+        String message = ex.getMessage();
+        Result result = Result.error(message);
+        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
