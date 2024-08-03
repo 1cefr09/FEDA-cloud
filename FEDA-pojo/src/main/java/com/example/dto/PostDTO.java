@@ -13,4 +13,8 @@ public class PostDTO implements Serializable {
     private String content;
 
     private Long authorId;
+
+    private Long categoryId;
+
+    private boolean isBanned;
 }

@@ -11,4 +11,8 @@ public class MessageConstant {
 
     public static final String ALREDY_EXISTS = "已经存在";
     public static final String USERNAME_EXIST = "用户名已存在";
+
+    public static final String TITLE_EMPTY = "标题为空";
+
+    public static final String CONTENT_EMPTY = "内容为空";
 }

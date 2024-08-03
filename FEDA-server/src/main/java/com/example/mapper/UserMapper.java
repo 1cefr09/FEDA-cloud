@@ -7,6 +7,10 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserMapper {
 
+    /**
+     * 插入数据
+     * @param user
+     */
     void insert(User user);
     /**
      * 根据用户名查询用户
