@@ -20,4 +20,11 @@ public interface UserMapper {
     @Select("select * from user where username = #{username}")
     User getByUsername(String username);
 
+    /**
+     * 查询账户是否被ban
+     * @param id
+     * @return
+     */
+    Boolean getIsBanned(long id);
+
 }

@@ -2,6 +2,8 @@ package com.example.utils;
 
 import java.security.Signature;
 import java.util.Map;
+
+import com.example.exception.JwtParseFailedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -49,10 +51,15 @@ public class JwtUtil {
     public static Claims parseJWT(String secretKey, String token){
 
         //创建JWTparser对象用来解析JWT
-        Claims claims = Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token).getBody();
-
-        return claims;
+        try {
+            Claims claims = Jwts.parser()
+                    //设置签名的秘钥
+                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                    //设置需要解析的jwt
+                    .parseClaimsJws(token).getBody();
+            return claims;
+        }catch (Exception e){
+        throw new JwtParseFailedException("请重新登录");
+        }
     }
 }

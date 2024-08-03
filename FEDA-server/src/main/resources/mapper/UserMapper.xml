@@ -7,4 +7,8 @@
         values (#{username}, #{password}, #{email},#{role}, now(), now())
 
     </insert>
+
+    <select id="getIsBanned" resultType="boolean">
+        select is_banned from user where id = #{id}
+    </select>
 </mapper>

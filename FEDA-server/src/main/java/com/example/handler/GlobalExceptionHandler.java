@@ -1,10 +1,7 @@
 package com.example.handler;
 
 import com.example.constant.MessageConstant;
-import com.example.exception.AccountNotFoundException;
-import com.example.exception.BaseException;
-import com.example.exception.PasswordErrorException;
-import com.example.exception.UsernameAlreadyExistException;
+import com.example.exception.*;
 import com.example.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,7 +33,7 @@ public class GlobalExceptionHandler {
 //        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
 //    }
 
-    @ExceptionHandler(UsernameAlreadyExistException.class)
+    @ExceptionHandler(UsernameAlreadyExistException.class)//处理用户名已存在异常
     public ResponseEntity<Result> handleUsernameAlreadyExistException(UsernameAlreadyExistException ex){
         String message = ex.getMessage();
         Result result = Result.error(message);
@@ -44,18 +41,25 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler(AccountNotFoundException.class)
+    @ExceptionHandler(AccountNotFoundException.class)//处理账号不存在异常
     public ResponseEntity<Result> handleAccountNotFoundException(AccountNotFoundException ex){
         String message = ex.getMessage();
         Result result = Result.error(message);
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(PasswordErrorException.class)
+    @ExceptionHandler(PasswordErrorException.class)//处理密码错误异常
     public ResponseEntity<Result> handlePasswordErrorException(PasswordErrorException ex){
         String message = ex.getMessage();
         Result result = Result.error(message);
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(JwtParseFailedException.class)//处理jwt解析失败异常
+    public ResponseEntity<Result> handleJwtParseFailedException(JwtParseFailedException ex){
+        String message = ex.getMessage();
+        Result result = Result.error(message);
+        return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BaseException.class)//处理其它异常

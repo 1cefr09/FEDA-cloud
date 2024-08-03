@@ -60,7 +60,7 @@ public class UserController {
         log.info("用户登录：{}", userLoginDTO);
 
         User user = userService.UserLogin(userLoginDTO);
-
+//        log.info("登录成功：{}", user);
         //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.USER_ID, user.getId());
@@ -68,7 +68,7 @@ public class UserController {
                 jwtProperties.getAdminSecretKey(),
                 jwtProperties.getAdminTtl(),
                 claims);
-
+//        log.info("生成的token：{}", token);
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
                 .userName(user.getUsername())

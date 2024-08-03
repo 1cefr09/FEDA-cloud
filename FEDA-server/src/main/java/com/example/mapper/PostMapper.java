@@ -17,13 +17,7 @@ public interface PostMapper {
     void insert(Post post);
 
 
-    /**
-     * 查询账户是否被ban
-     * @param is_banned
-     * @return
-     */
-    @Select("select * from post where author_id = #{authorId}")
-    Boolean getIsBanned(Boolean is_banned);
+
 
 
     /**
@@ -31,5 +25,5 @@ public interface PostMapper {
      * @param postPageQueryDTO
      * @return
      */
-    Page<Category> pageQuery(PostPageQueryDTO postPageQueryDTO);
+//    Page<Category> pageQuery(PostPageQueryDTO postPageQueryDTO);
 }

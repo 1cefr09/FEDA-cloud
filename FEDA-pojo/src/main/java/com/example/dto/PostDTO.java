@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class PostDTO implements Serializable {
-    private Long id;
+//    private Long id;
 
     private String title;
 
@@ -16,5 +16,5 @@ public class PostDTO implements Serializable {
 
     private Long categoryId;
 
-    private boolean isBanned;
+//    private boolean isBanned;
 }
