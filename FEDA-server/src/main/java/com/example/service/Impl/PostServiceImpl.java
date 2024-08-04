@@ -68,6 +68,7 @@ public class PostServiceImpl implements PostService {
         if (postDTO.getContent() == null || postDTO.getContent().isEmpty()) {
             throw new ContentIsEmptyException(MessageConstant.CONTENT_EMPTY);
         }
+        //TODO: 检查用户是否被封禁用一个统一的拦截器
         if (userMapper.getIsBanned(postDTO.getAuthorId())) {
             throw new AccountBannedException(MessageConstant.ACCOUNT_BANNED);
         }

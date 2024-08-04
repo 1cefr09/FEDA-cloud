@@ -8,8 +8,9 @@
 
     </insert>
 
-    <select id="postPageQuery" resultType="com.example.entity.Post">
-        select * from post
-        order by create_time desc
+    <select id="postPageQuery" parameterType="com.example.dto.PostPageQueryDTO" resultType="com.example.entity.Post">
+        SELECT *
+        FROM post
+        WHERE category_id = #{categoryId}
     </select>
 </mapper>

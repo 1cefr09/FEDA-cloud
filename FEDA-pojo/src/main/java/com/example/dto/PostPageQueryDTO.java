@@ -14,6 +14,6 @@ public class PostPageQueryDTO implements Serializable {
     //板块名称
     private String categoryName;
 
-    //模块id
-//    private Long id;
+    //板块id
+    private Long categoryId;
 }

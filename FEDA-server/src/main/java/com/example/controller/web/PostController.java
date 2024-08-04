@@ -36,11 +36,19 @@ public class PostController {
 
     @GetMapping("/postPage")
     @ApiOperation("post分页查询")
-    public Result<PageResult> postPage(PostPageQueryDTO postPageQueryDTO){
+    public Result<PageResult> postPage(
+            @RequestParam int page,
+            @RequestParam int pageSize,
+            @RequestParam(required = false) Long categoryId) {
+
+        // 创建 DTO 对象
+        PostPageQueryDTO postPageQueryDTO = new PostPageQueryDTO();
+        postPageQueryDTO.setPage(page);
+        postPageQueryDTO.setPageSize(pageSize);
+        postPageQueryDTO.setCategoryId(categoryId);
         log.info("post分页查询，参数为：{}",postPageQueryDTO);
         PageResult postPageResult = postService.postPageQuery(postPageQueryDTO);
         return Result.success(postPageResult);
     }
-
 
 }
