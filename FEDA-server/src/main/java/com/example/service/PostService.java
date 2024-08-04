@@ -9,11 +9,11 @@ import com.example.result.Result;
 public interface PostService {
 
     /**
-     * 分页查询
+     * post分页查询
      * @param postPageQueryDTO
      * @return
      */
-    PageResult pageQuery(PostPageQueryDTO postPageQueryDTO);
+    PageResult postPageQuery(PostPageQueryDTO postPageQueryDTO);
 
     /**
      * 用户发帖

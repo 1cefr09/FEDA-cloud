@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class PostPageQueryDTO implements Serializable {
+
     private int page;
 
     private int pageSize;
@@ -14,5 +15,5 @@ public class PostPageQueryDTO implements Serializable {
     private String categoryName;
 
     //模块id
-    private Long categoryId;
+//    private Long id;
 }

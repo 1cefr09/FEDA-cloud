@@ -21,9 +21,9 @@ public interface PostMapper {
 
 
     /**
-     * 分页查询
+     * post分页查询
      * @param postPageQueryDTO
      * @return
      */
-//    Page<Category> pageQuery(PostPageQueryDTO postPageQueryDTO);
+    Page<Post> postPageQuery(PostPageQueryDTO postPageQueryDTO);
 }

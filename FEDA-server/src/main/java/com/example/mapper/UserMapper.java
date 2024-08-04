@@ -27,4 +27,6 @@ public interface UserMapper {
      */
     Boolean getIsBanned(long id);
 
+
+
 }

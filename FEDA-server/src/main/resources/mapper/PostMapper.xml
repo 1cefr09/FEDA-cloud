@@ -7,4 +7,9 @@
         values (#{title}, #{content}, #{categoryId},#{authorId},#{isBanned}, now(), now())
 
     </insert>
+
+    <select id="postPageQuery" resultType="com.example.entity.Post">
+        select * from post
+        order by create_time desc
+    </select>
 </mapper>

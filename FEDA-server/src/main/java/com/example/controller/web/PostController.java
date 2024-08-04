@@ -2,16 +2,15 @@ package com.example.controller.web;
 
 import com.example.context.BaseContext;
 import com.example.dto.PostDTO;
+import com.example.dto.PostPageQueryDTO;
+import com.example.result.PageResult;
 import com.example.result.Result;
 import com.example.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 发帖
@@ -34,5 +33,14 @@ public class PostController {
         postService.userPost(postDTO);
         return Result.success();
     }
+
+    @GetMapping("/postPage")
+    @ApiOperation("post分页查询")
+    public Result<PageResult> postPage(PostPageQueryDTO postPageQueryDTO){
+        log.info("post分页查询，参数为：{}",postPageQueryDTO);
+        PageResult postPageResult = postService.postPageQuery(postPageQueryDTO);
+        return Result.success(postPageResult);
+    }
+
 
 }

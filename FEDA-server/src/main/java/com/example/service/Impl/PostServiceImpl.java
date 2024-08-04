@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -36,13 +38,18 @@ public class PostServiceImpl implements PostService {
      * @return
      */
     @Override
-    public PageResult pageQuery(PostPageQueryDTO postPageQueryDTO) {
-//
-//        PageHelper.startPage(postPageQueryDTO.getPage(),postPageQueryDTO.getPageSize());
-//        //下一条sql进行分页，自动加入limit关键字分页
-//        Page<Category> page = postMapper.pageQuery(postPageQueryDTO);
-//        return new PageResult(page.getTotal(),page.getResult());
-        return null;
+    public PageResult postPageQuery(PostPageQueryDTO postPageQueryDTO) {
+
+
+        PageHelper.startPage(postPageQueryDTO.getPage(),postPageQueryDTO.getPageSize());
+
+        Page<Post> page = postMapper.postPageQuery(postPageQueryDTO);
+
+        long total = page.getTotal();
+        List<Post> records = page.getResult();
+
+        return new PageResult(total,records);
+
     }
 
 
