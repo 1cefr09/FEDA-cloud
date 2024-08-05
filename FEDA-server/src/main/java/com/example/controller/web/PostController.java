@@ -1,5 +1,6 @@
 package com.example.controller.web;
 
+import com.example.annotation.CheckBanStatus;
 import com.example.context.BaseContext;
 import com.example.dto.PostDTO;
 import com.example.dto.PostPageQueryDTO;
@@ -26,6 +27,7 @@ public class PostController {
 
     @PostMapping("/userPost")
     @ApiOperation(value = "发帖接口")
+    @CheckBanStatus //此处拦截检测是否被ban
     Result userPost(@RequestBody PostDTO postDTO) {
         long userId = BaseContext.getCurrentId();
         postDTO.setAuthorId(userId);
