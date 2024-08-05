@@ -8,10 +8,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 
+@Slf4j
 public class JwtUtil {
     /**
      *生成Jwt校验

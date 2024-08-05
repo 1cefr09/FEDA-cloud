@@ -1,6 +1,7 @@
 package com.example.config;
 
 import com.example.interceptor.JwtTokenAdminInterceptor;
+import com.example.interceptor.UserIsBannedInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,12 +18,20 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
 
+    @Autowired
+    private UserIsBannedInterceptor userIsBannedInterceptor;
 
+
+    //拦截器按顺序注册并且执行
     public void addInterceptors(InterceptorRegistry registry) {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/api/**")             //设置拦截路径
                 .excludePathPatterns("/api/user/login","/api/user/register");          //设置放行路径
+
+        //用户是否被ban拦截器
+        registry.addInterceptor(userIsBannedInterceptor)
+                .addPathPatterns("/api/post/userPost");
     }
 
 
