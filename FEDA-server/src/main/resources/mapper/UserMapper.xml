@@ -8,6 +8,14 @@
 
     </insert>
 
+    <select id="getByUsername" parameterType="string" resultType="com.example.entity.User">
+        select * from user where username = #{username}
+    </select>
+
+    <select id="getUsernameById" parameterType="long" resultType="string">
+        select username from user where id = #{id}
+    </select>
+
     <select id="getIsBanned" resultType="boolean">
         select is_banned from user where id = #{id}
     </select>

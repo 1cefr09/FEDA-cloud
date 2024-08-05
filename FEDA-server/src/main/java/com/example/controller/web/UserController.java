@@ -64,8 +64,6 @@ public class UserController {
         //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.USER_ID, user.getId());
-        //jwt令牌中加入ban信息
-        claims.put(JwtClaimsConstant.IS_BANNED,user.isBanned());
 
         String token = JwtUtil.createJWT(
                 jwtProperties.getAdminSecretKey(),
@@ -75,7 +73,6 @@ public class UserController {
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
                 .userName(user.getUsername())
-                .isBanned(user.isBanned())
                 .token(token)
                 .build();
 

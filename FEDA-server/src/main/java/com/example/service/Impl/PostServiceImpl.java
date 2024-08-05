@@ -13,6 +13,7 @@ import com.example.mapper.PostMapper;
 import com.example.mapper.UserMapper;
 import com.example.result.PageResult;
 import com.example.service.PostService;
+import com.example.vo.PostVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +44,11 @@ public class PostServiceImpl implements PostService {
 
         PageHelper.startPage(postPageQueryDTO.getPage(),postPageQueryDTO.getPageSize());
 
-        Page<Post> page = postMapper.postPageQuery(postPageQueryDTO);
+        Page<PostVO> page = postMapper.postPageQuery(postPageQueryDTO);
+
 
         long total = page.getTotal();
-        List<Post> records = page.getResult();
+        List<PostVO> records = page.getResult();
 
         return new PageResult(total,records);
 
@@ -69,14 +71,11 @@ public class PostServiceImpl implements PostService {
             throw new ContentIsEmptyException(MessageConstant.CONTENT_EMPTY);
         }
 
-//        //TODO: 检查用户是否被封禁用一个统一的拦截器
-//        if (userMapper.getIsBanned(postDTO.getAuthorId())) {
-//            throw new AccountBannedException(MessageConstant.ACCOUNT_BANNED);
-//        }
-
         Post post = new Post();
         BeanUtils.copyProperties(postDTO,post);
         post.setAuthorId(postDTO.getAuthorId());
+        String authorName = userMapper.getUsernameById(post.getAuthorId());
+        post.setAuthorName(authorName);
 //        System.out.println("发帖：" + post);
         // 保存实体到数据库
         postMapper.insert(post);

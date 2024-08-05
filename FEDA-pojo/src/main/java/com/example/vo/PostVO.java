@@ -14,5 +14,11 @@ public class PostVO implements Serializable {
 
     private Long authorId;
 
+    private String authorName;
+
+    private Long categoryId;
+
     private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
 }

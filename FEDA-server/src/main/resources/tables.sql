@@ -34,6 +34,7 @@ create table post
     content TEXT NOT NULL COMMENT'帖子内容',
     category_id INT NOT NULL DEFAULT 1 comment '板块id',
     author_id BIGINT NOT NULL COMMENT'作者id',
+    author_name VARCHAR(50) NOT NULL COMMENT '作者名',
     is_banned BOOLEAN NOT NULL DEFAULT FALSE,
     create_time DATETIME NOT NULL COMMENT'创建时间',
     update_time DATETIME NOT NULL COMMENT'更新时间（回帖）'
@@ -48,6 +49,7 @@ CREATE TABLE comment
     parent_id BIGINT null COMMENT'回复的评论id',
     content TEXT NOT NULL COMMENT'评论内容',
     author_id BIGINT NOT NULL COMMENT'作者id',
+    author_name VARCHAR(50) NOT NULL COMMENT'作者名',
     is_banned BOOLEAN NOT NULL DEFAULT FALSE,
     create_time DATETIME NOT NULL COMMENT'创建时间'
 )

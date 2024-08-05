@@ -3,14 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.PostMapper">
     <insert id="insert">
-        insert into post (title, content, category_id,author_id, is_banned,create_time, update_time)
-        values (#{title}, #{content}, #{categoryId},#{authorId},#{isBanned}, now(), now())
+        insert into post (title, content, category_id,author_id, author_name,is_banned,create_time, update_time)
+        values (#{title}, #{content}, #{categoryId},#{authorId},#{authorName},#{isBanned}, now(), now())
 
     </insert>
 
-    <select id="postPageQuery" parameterType="com.example.dto.PostPageQueryDTO" resultType="com.example.entity.Post">
+    <select id="postPageQuery" parameterType="com.example.dto.PostPageQueryDTO" resultType="com.example.vo.PostVO">
         SELECT *
         FROM post
-        WHERE category_id = #{categoryId}
+        WHERE category_id = #{categoryId} and is_banned = false
     </select>
 </mapper>

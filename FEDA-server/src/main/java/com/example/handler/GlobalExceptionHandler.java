@@ -18,21 +18,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
 
-//    @ExceptionHandler(BaseException.class)
-//    public ResponseEntity<Result> handleBaseException(BaseException ex){
-//        String message = ex.getMessage();
-//        Result result = Result.error(message);
-//        if (ex instanceof UsernameAlreadyExistException){
-//            return new ResponseEntity<>(result, HttpStatus.CONFLICT);}
-//        else if (ex instanceof AccountNotFoundException){
-//            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//        }
-//        else if (ex instanceof PasswordErrorException){
-//            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-
     @ExceptionHandler(UsernameAlreadyExistException.class)//处理用户名已存在异常
     public ResponseEntity<Result> handleUsernameAlreadyExistException(UsernameAlreadyExistException ex){
         String message = ex.getMessage();
@@ -60,6 +45,13 @@ public class GlobalExceptionHandler {
         String message = ex.getMessage();
         Result result = Result.error(message);
         return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AccountBannedException.class)//处理账户被ban异常
+    public ResponseEntity<Result> handleAccountBannedException(AccountBannedException ex){
+        String message = ex.getMessage();
+        Result result = Result.error(message);
+        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(BaseException.class)//处理其它异常

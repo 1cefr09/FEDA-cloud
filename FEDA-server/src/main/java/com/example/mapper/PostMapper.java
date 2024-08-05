@@ -4,6 +4,7 @@ import com.example.dto.PostPageQueryDTO;
 import com.example.entity.Category;
 import com.example.entity.Post;
 import com.example.entity.User;
+import com.example.vo.PostVO;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -25,5 +26,5 @@ public interface PostMapper {
      * @param postPageQueryDTO
      * @return
      */
-    Page<Post> postPageQuery(PostPageQueryDTO postPageQueryDTO);
+    Page<PostVO> postPageQuery(PostPageQueryDTO postPageQueryDTO);
 }

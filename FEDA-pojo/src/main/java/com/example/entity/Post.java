@@ -17,6 +17,8 @@ public class Post {
 
     private Long authorId;
 
+    private String authorName;
+
     private Long categoryId;
 
     private boolean isBanned = false;

@@ -17,8 +17,16 @@ public interface UserMapper {
      * @param username
      * @return
      */
-    @Select("select * from user where username = #{username}")
+    //@Select("select * from user where username = #{username}")
     User getByUsername(String username);
+
+    /**
+     * 根据用户id查用户名
+     * @param id
+     * @return
+     */
+    //@Select("select username from user where id = #{id}")
+    String getUsernameById(Long id);
 
     /**
      * 查询账户是否被ban
