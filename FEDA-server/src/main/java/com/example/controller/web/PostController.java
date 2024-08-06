@@ -41,13 +41,22 @@ public class PostController {
     public Result<PageResult> postPage(
             @RequestParam int page,
             @RequestParam int pageSize,
-            @RequestParam(required = false) Long categoryId) {
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String categoryName) {
 
         // 创建 DTO 对象
         PostPageQueryDTO postPageQueryDTO = new PostPageQueryDTO();
         postPageQueryDTO.setPage(page);
         postPageQueryDTO.setPageSize(pageSize);
-        postPageQueryDTO.setCategoryId(categoryId);
+        if (categoryId != null) {
+            postPageQueryDTO.setCategoryId(categoryId);
+        } else if (categoryName != null) {
+            postPageQueryDTO.setCategoryName(categoryName);
+            postPageQueryDTO.setCategoryId(postService.getCategoryIdByName(categoryName));
+        }
+        else{
+            postPageQueryDTO.setCategoryId(1L);
+        }
         log.info("post分页查询，参数为：{}",postPageQueryDTO);
         PageResult postPageResult = postService.postPageQuery(postPageQueryDTO);
         return Result.success(postPageResult);

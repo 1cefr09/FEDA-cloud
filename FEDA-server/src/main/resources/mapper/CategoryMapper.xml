@@ -6,4 +6,7 @@
     <select id="categoryListQuery" resultType="com.example.vo.CategoryVO">
         SELECT * FROM category
     </select>
+    <select id="getCategoryIdByName" resultType="java.lang.Long">
+        SELECT id FROM category WHERE category_name = #{categoryName}
+    </select>
 </mapper>

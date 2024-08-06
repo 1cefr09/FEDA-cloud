@@ -28,5 +28,6 @@ public interface PostService {
      */
     void postDelete(Long id);
 
+    long getCategoryIdByName(String categoryName);
 
 }

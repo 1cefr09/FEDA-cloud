@@ -9,6 +9,7 @@ import com.example.entity.Post;
 import com.example.exception.AccountBannedException;
 import com.example.exception.ContentIsEmptyException;
 import com.example.exception.TitleIsEmptyException;
+import com.example.mapper.CategoryMapper;
 import com.example.mapper.PostMapper;
 import com.example.mapper.UserMapper;
 import com.example.result.PageResult;
@@ -32,6 +33,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     /**
      * 分页查询
@@ -88,5 +92,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public void postDelete(Long id) {
 
+    }
+
+    @Override
+    public long getCategoryIdByName(String categoryName) {
+        return categoryMapper.getCategoryIdByName(categoryName);
     }
 }

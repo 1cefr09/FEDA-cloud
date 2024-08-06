@@ -14,4 +14,6 @@ public interface CategoryMapper {
     //
     List<CategoryVO> categoryListQuery();
 
+    long getCategoryIdByName(String categoryName);
+
 }
