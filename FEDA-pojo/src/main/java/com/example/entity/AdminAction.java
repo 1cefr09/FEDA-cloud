@@ -8,13 +8,12 @@ import java.time.LocalDateTime;
 public class AdminAction {
     private Long id;
 
-    private Long postId;
+    private Long adminId;
 
-    private Long parentId;
+    private String actionType;
 
-    private String content;
 
-    private Long authorId;
+    private Long targetId;
 
-    private LocalDateTime createTime;
+    private LocalDateTime timestamp;
 }

@@ -11,7 +11,7 @@ public class CommentDTO implements Serializable {
 
     private Long postId;
 
-    private Long parentId;
+    private Long parentId = 1L ;
 
     private String content;
 

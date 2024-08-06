@@ -9,16 +9,19 @@ import java.time.LocalDateTime;
  */
 @Data
 public class Comment {
+
     private Long id;
 
-    private Long adminId;
+    private Long postId;
 
-    private String actionType;
+    private Long parentId;
+
+    private String content;
 
     private boolean isBanned = false;
 
-    private Long targetId;
+    private Long authorId;
 
-    private LocalDateTime timestamp;
+    private LocalDateTime createTime;
 
 }
