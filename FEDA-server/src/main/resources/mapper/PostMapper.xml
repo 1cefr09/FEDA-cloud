@@ -10,6 +10,9 @@
     <update id="update">
         update post set update_time = now() where id = #{id}
     </update>
+    <update id="updateUsername">
+        update post set author_name = #{username} where author_id = #{Id}
+    </update>
 
     <select id="postPageQuery" parameterType="com.example.dto.PostPageQueryDTO" resultType="com.example.vo.PostVO">
         SELECT *

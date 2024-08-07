@@ -7,6 +7,14 @@
         values (#{username}, #{password}, #{email},#{role}, now(), now())
 
     </insert>
+    <update id="update">
+        update user
+        set username = #{username},
+        password = #{password},
+        email = #{email},
+        update_time = now()
+        where id = #{id}
+    </update>
 
     <select id="getByUsername" parameterType="string" resultType="com.example.entity.User">
         select * from user where username = #{username}
@@ -18,5 +26,8 @@
 
     <select id="getIsBanned" parameterType="long" resultType="boolean">
         select is_banned from user where id = #{id}
+    </select>
+    <select id="getById" resultType="com.example.entity.User">
+        select * from user where id = #{id}
     </select>
 </mapper>

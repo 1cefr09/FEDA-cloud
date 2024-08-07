@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.dto.UserDTO;
 import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
+import com.example.vo.UserVO;
 
 
 public interface UserService {
@@ -11,6 +12,10 @@ public interface UserService {
 
     User UserLogin(UserLoginDTO userLoginDTO);
 
+    User getUserById(Long id);
 
+    User getUserByUsername(String username);
+
+    UserVO updateUser(long id ,UserDTO userDTO);
 
 }

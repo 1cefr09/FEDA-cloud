@@ -7,18 +7,29 @@ import com.example.entity.User;
 import com.example.exception.AccountNotFoundException;
 import com.example.exception.PasswordErrorException;
 import com.example.exception.UsernameAlreadyExistException;
+import com.example.mapper.CommentMapper;
+import com.example.mapper.PostMapper;
 import com.example.mapper.UserMapper;
+import com.example.service.PostService;
 import com.example.service.UserService;
+import com.example.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PostMapper postMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Override
     public void UserRegister(UserDTO userDTO){
@@ -63,6 +74,39 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public User getUserById(Long id) {
+        return userMapper.getById(id);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userMapper.getByUsername(username);
+    }
+
+    @Override
+    @Transactional
+    public UserVO updateUser(long id, UserDTO userDTO) {
+        User user = userMapper.getById(id);
+        //更新其它表的username
+        if (!user.getUsername().equals(userDTO.getUsername())){
+            postMapper.updateUsername(user.getId(),userDTO.getUsername());
+            commentMapper.updateUsername(user.getId(),userDTO.getUsername());
+        }
+        userDTO.setPassword(DigestUtils.sha256Hex(userDTO.getPassword()));
+        BeanUtils.copyProperties(userDTO,user);
+        userMapper.update(user);
+
+
+        return UserVO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .role(user.getRole())
+                .email(user.getEmail())
+                .isBanned(user.isBanned())
+                .build();
+
+    }
 
 
 }

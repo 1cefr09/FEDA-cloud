@@ -54,6 +54,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(ParamErrorException.class)//处理参数错误异常
+    public ResponseEntity<Result> handleParamErrorException(ParamErrorException ex){
+        String message = ex.getMessage();
+        Result result = Result.error(message);
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BaseException.class)//处理其它异常
     public ResponseEntity<Result> handleBaseException(BaseException ex){
         String message = ex.getMessage();

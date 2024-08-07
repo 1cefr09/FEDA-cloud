@@ -7,6 +7,7 @@ import com.example.entity.User;
 import com.example.vo.PostVO;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
@@ -20,6 +21,7 @@ public interface PostMapper {
 
     void update(long Id);
 
+    void updateUsername(@Param("Id") long Id, @Param("username") String username);
 
     /**
      * post分页查询

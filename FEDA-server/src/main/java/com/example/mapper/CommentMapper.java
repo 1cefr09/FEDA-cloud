@@ -6,6 +6,7 @@ import com.example.entity.Post;
 import com.example.vo.CommentVO;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface CommentMapper {
@@ -16,7 +17,7 @@ public interface CommentMapper {
      */
     void insert(Comment comment);
 
-
+    void updateUsername(@Param("Id") long Id, @Param("username") String username);
     /**
      * comment回帖查询
      * @param commentPageQueryDTO

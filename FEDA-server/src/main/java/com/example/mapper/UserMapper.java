@@ -20,6 +20,9 @@ public interface UserMapper {
     //@Select("select * from user where username = #{username}")
     User getByUsername(String username);
 
+
+    User getById(Long id);
+
     /**
      * 根据用户id查用户名
      * @param id
@@ -35,6 +38,6 @@ public interface UserMapper {
      */
     Boolean getIsBanned(long id);
 
-
+    void update(User user);
 
 }

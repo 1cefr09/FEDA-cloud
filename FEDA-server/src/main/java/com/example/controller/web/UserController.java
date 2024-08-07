@@ -1,9 +1,12 @@
 package com.example.controller.web;
 
 import com.example.constant.JwtClaimsConstant;
+import com.example.context.BaseContext;
 import com.example.dto.UserDTO;
 import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
+import com.example.exception.BaseException;
+import com.example.exception.ParamErrorException;
 import com.example.mapper.UserMapper;
 import com.example.properties.JwtProperties;
 import com.example.result.Result;
@@ -14,11 +17,9 @@ import com.example.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,5 +85,52 @@ public class UserController {
         return Result.success(userLoginVO);
     }
 
+    @GetMapping("/getSelfInfo")
+    @ApiOperation("获取本用户信息")
+    public Result<UserVO> getSelfInfo(){
+        Long userId = BaseContext.getCurrentId();
+        log.info("获取本用户信息，userId:{}",userId);
+        User user = userService.getUserById(userId);
+        UserVO userVO = UserVO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .role(user.getRole())
+                .email(user.getEmail())
+                .isBanned(user.isBanned())
+                .build();
+        return Result.success(userVO);
+    }
 
+    @GetMapping("/getUserInfo")
+    @ApiOperation("获取其它用户信息")
+    public Result<UserVO> getUserInfo(
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) String username){
+        log.info("获取用户信息，userId:{},username:{}",userId,username);
+        User user;
+        if (userId != null){
+            user = userService.getUserById(userId);}
+        else if (username != null){
+            user = userService.getUserByUsername(username);
+        }
+        else {
+            throw new ParamErrorException("参数错误");
+        }
+        UserVO userVO = UserVO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .role(user.getRole())
+                .isBanned(user.isBanned())
+                .build();
+        return Result.success(userVO);
+    }
+
+    @PostMapping("/updateUser")
+    @ApiOperation("更新用户信息")
+    public Result<UserVO> updateUser(@RequestBody UserDTO userDTO){
+        Long userId = BaseContext.getCurrentId();
+        log.info("更新用户信息，userId:{},userDTO:{}",userId,userDTO);
+        UserVO userVO = userService.updateUser(userId,userDTO);
+        return Result.success(userVO);
+    }
 }
