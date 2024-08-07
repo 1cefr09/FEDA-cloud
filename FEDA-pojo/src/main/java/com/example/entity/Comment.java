@@ -22,6 +22,8 @@ public class Comment {
 
     private Long authorId;
 
+    private String authorName;
+
     private LocalDateTime createTime;
 
 }

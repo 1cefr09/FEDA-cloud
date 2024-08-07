@@ -4,6 +4,7 @@ import com.example.constant.JwtClaimsConstant;
 import com.example.dto.UserDTO;
 import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
+import com.example.mapper.UserMapper;
 import com.example.properties.JwtProperties;
 import com.example.result.Result;
 import com.example.service.UserService;
@@ -37,6 +38,9 @@ public class UserController {
 
     @Autowired
     private JwtProperties jwtProperties;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @PostMapping("/register")
     @ApiOperation(value = "用户注册")
@@ -73,6 +77,7 @@ public class UserController {
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
                 .userName(user.getUsername())
+                .isBanned(userMapper.getIsBanned(user.getId()))
                 .token(token)
                 .build();
 

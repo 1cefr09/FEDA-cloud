@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 public class CommentDTO implements Serializable {
-    private Long id;
+    //private Long id;
 
     private Long postId;
 

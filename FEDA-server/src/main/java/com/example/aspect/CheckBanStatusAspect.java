@@ -39,8 +39,8 @@ public class CheckBanStatusAspect {
     public void checkBanStatus() throws Exception{
         //从当前线程中获得UserId
         //从请求头中获取token
-        String token = request.getHeader(jwtProperties.getAdminTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(),token);
+        //String token = request.getHeader(jwtProperties.getAdminTokenName());
+        //Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(),token);
         Long userId = BaseContext.getCurrentId();
         boolean isBanned = userMapper.getIsBanned(userId);
 

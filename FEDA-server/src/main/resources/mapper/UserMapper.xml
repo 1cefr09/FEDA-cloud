@@ -16,7 +16,7 @@
         select username from user where id = #{id}
     </select>
 
-    <select id="getIsBanned" resultType="boolean">
+    <select id="getIsBanned" parameterType="long" resultType="boolean">
         select is_banned from user where id = #{id}
     </select>
 </mapper>

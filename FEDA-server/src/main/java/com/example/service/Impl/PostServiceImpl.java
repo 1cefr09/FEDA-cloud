@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
     private CategoryMapper categoryMapper;
 
     /**
-     * 分页查询
+     * post分页查询
      * @param postPageQueryDTO
      * @return
      */
@@ -66,7 +66,7 @@ public class PostServiceImpl implements PostService {
      */
     @Override
     public Post userPost(PostDTO postDTO) {
-        System.out.println("传入Service层的DTO：" + postDTO);
+        System.out.println("发帖传入Service层的DTO：" + postDTO);
         // 数据验证（例如，检查标题和内容是否为空）
         if (postDTO.getTitle() == null || postDTO.getTitle().isEmpty()) {
             throw new TitleIsEmptyException(MessageConstant.TITLE_EMPTY);
@@ -77,7 +77,7 @@ public class PostServiceImpl implements PostService {
 
         Post post = new Post();
         BeanUtils.copyProperties(postDTO,post);
-        post.setAuthorId(postDTO.getAuthorId());
+        //post.setAuthorId(postDTO.getAuthorId());
         String authorName = userMapper.getUsernameById(post.getAuthorId());
         post.setAuthorName(authorName);
 //        System.out.println("发帖：" + post);
