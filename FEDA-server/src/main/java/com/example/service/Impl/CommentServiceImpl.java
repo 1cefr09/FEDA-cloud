@@ -6,6 +6,7 @@ import com.example.dto.CommentPageQueryDTO;
 import com.example.entity.Comment;
 import com.example.exception.ContentIsEmptyException;
 import com.example.mapper.CommentMapper;
+import com.example.mapper.PostMapper;
 import com.example.mapper.UserMapper;
 import com.example.result.PageResult;
 import com.example.service.CommentService;
@@ -15,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +27,9 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
 
     @Autowired
+    private PostMapper postMapper;
+
+    @Autowired
     private UserMapper userMapper;
 
     /**
@@ -32,6 +37,7 @@ public class CommentServiceImpl implements CommentService {
      * @param commentDTO
      * @return
      */
+    @Transactional
     @Override
     public Comment userComment(CommentDTO commentDTO){
         System.out.println("回帖传入Service层的DTO" + commentDTO);
@@ -47,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
 
         //保存实体到数据库
         commentMapper.insert(comment);
-
+        postMapper.update(commentDTO.getPostId());
         //返回保存后的实体
         return comment;
 

@@ -40,12 +40,14 @@ public class CommentController {
     @ApiOperation("comment分页查询")
     public Result<PageResult> commentPage(
             @RequestParam int page,
-            @RequestParam int pageSize,
+            @RequestParam(required = false) Integer pageSize,
             @RequestParam long postId) {
 
         CommentPageQueryDTO commentPageQueryDTO = new CommentPageQueryDTO();
         commentPageQueryDTO.setPage(page);
-        commentPageQueryDTO.setPageSize(pageSize);
+        if (pageSize != null){
+            commentPageQueryDTO.setPageSize(pageSize);
+        }
         commentPageQueryDTO.setPostId(postId);
 
         log.info("comment查询，参数为：{}",commentPageQueryDTO);

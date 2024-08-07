@@ -40,14 +40,16 @@ public class PostController {
     @ApiOperation("post分页查询")
     public Result<PageResult> postPage(
             @RequestParam int page,
-            @RequestParam int pageSize,
+            @RequestParam(required = false) Integer pageSize,
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) String categoryName) {
 
         // 创建 DTO 对象
         PostPageQueryDTO postPageQueryDTO = new PostPageQueryDTO();
         postPageQueryDTO.setPage(page);
-        postPageQueryDTO.setPageSize(pageSize);
+        if (pageSize != null) {
+            postPageQueryDTO.setPageSize(pageSize);
+        }
         if (categoryId != null) {
             postPageQueryDTO.setCategoryId(categoryId);
         } else if (categoryName != null) {

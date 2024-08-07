@@ -9,7 +9,7 @@ public class PostPageQueryDTO implements Serializable {
 
     private int page;
 
-    private int pageSize;
+    private int pageSize = 10;
 
     //板块名称
     private String categoryName;

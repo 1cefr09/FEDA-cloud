@@ -6,7 +6,7 @@ import lombok.Data;
 public class CommentPageQueryDTO {
     private int page;
 
-    private int pageSize;
+    private int pageSize = 10;
 
     private Long postId;
 }

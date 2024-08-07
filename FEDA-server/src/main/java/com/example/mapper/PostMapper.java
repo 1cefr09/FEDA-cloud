@@ -18,7 +18,7 @@ public interface PostMapper {
     void insert(Post post);
 
 
-
+    void update(long Id);
 
 
     /**

@@ -7,6 +7,9 @@
         values (#{title}, #{content}, #{categoryId},#{authorId},#{authorName},#{isBanned}, now(), now())
 
     </insert>
+    <update id="update">
+        update post set update_time = now() where id = #{id}
+    </update>
 
     <select id="postPageQuery" parameterType="com.example.dto.PostPageQueryDTO" resultType="com.example.vo.PostVO">
         SELECT *
