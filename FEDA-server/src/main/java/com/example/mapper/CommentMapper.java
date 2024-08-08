@@ -28,4 +28,6 @@ public interface CommentMapper {
      * @return
      */
     Page<CommentVO> commentPageQuery(CommentPageQueryDTO commentPageQueryDTO);
+
+    long getAuthorIdByCommentId(long commentId);
 }

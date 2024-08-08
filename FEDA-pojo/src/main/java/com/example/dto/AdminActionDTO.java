@@ -8,6 +8,6 @@ public class AdminActionDTO {
 
     private Long targetId;
 
-    private String targetType;
+//    private String targetType;
 
 }

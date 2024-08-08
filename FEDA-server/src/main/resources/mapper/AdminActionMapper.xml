@@ -4,7 +4,7 @@
 <mapper namespace="com.example.mapper.AdminActionMapper">
 
     <insert id="insert">
-        insert into admin_action (admin_id, action_type, target_id,target_type, timestamp)
-        values (#{adminId}, #{actionType}, #{targetId},#{targetType}, now())
+        insert into admin_action (admin_id, action_type, target_id, timestamp)
+        values (#{adminId}, #{actionType}, #{targetId}, now())
     </insert>
 </mapper>

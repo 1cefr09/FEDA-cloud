@@ -27,4 +27,7 @@
         FROM post
         WHERE category_id = #{categoryId} and is_banned = false
     </select>
+    <select id="getAuthorIdByPostId" resultType="java.lang.Long">
+        select author_id from post where id = #{postId}
+    </select>
 </mapper>

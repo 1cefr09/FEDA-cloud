@@ -33,4 +33,6 @@ public interface PostMapper {
      * @return
      */
     Page<PostVO> postPageQuery(PostPageQueryDTO postPageQueryDTO);
+
+    long getAuthorIdByPostId(long postId);
 }

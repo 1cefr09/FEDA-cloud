@@ -14,7 +14,7 @@ public class AdminAction {
 
     private Long targetId;
 
-    private String targetType;
+//    private String targetType;
 
     private LocalDateTime timestamp;
 }

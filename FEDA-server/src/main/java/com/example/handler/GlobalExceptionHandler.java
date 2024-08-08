@@ -61,6 +61,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(TypeNotSameException.class)//处理类型不一致异常
+    public ResponseEntity<Result> handleTypeNotSameException(TypeNotSameException ex){
+        String message = ex.getMessage();
+        Result result = Result.error(message);
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoPermissionException.class)//处理无权限异常
+    public ResponseEntity<Result> handleNoPermissionException(NoPermissionException ex){
+        String message = ex.getMessage();
+        Result result = Result.error(message);
+        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(BaseException.class)//处理其它异常
     public ResponseEntity<Result> handleBaseException(BaseException ex){
         String message = ex.getMessage();

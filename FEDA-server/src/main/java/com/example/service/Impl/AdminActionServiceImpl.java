@@ -1,6 +1,8 @@
 package com.example.service.Impl;
 
+import com.example.annotation.CheckPermission;
 import com.example.constant.MessageConstant;
+import com.example.constant.UserRoleConstant;
 import com.example.context.BaseContext;
 import com.example.dto.AdminActionDTO;
 import com.example.entity.AdminAction;
@@ -39,24 +41,16 @@ public class AdminActionServiceImpl implements AdminActionService {
      * @param adminActionDTO
      */
     @Override
+    @CheckPermission(roles = {UserRoleConstant.ROOT}, allowSelf = false)
     public void userToAdmin(AdminActionDTO adminActionDTO) {
         //检查是否有权限
         Long adminId = BaseContext.getCurrentId();
-        String adminRole = userMapper.getUserRoleById(adminId);
-        if (!adminRole.equals("ADMIN")){
-            throw new NoPermissionException(MessageConstant.NO_PERMISSION);
-        }
-
-        //检查是否为相应类型
-        if (!adminActionDTO.getActionType().equals("userToAdmin")){
-            throw new TypeNotSameException(MessageConstant.TYPE_NOT_SAME);
-        }
 
         String userRole = userMapper.getUserRoleById(adminActionDTO.getTargetId());
-        if (userRole.equals("USER")){
-            userMapper.updateUserRole(adminActionDTO.getTargetId(),"ADMIN");
+        if (userRole.equals(UserRoleConstant.USER)){
+            userMapper.updateUserRole(adminActionDTO.getTargetId(), UserRoleConstant.ADMIN);
         } else{
-            userMapper.updateUserRole(adminActionDTO.getTargetId(),"USER");
+            userMapper.updateUserRole(adminActionDTO.getTargetId(),UserRoleConstant.USER);
         }
         AdminAction adminAction = new AdminAction();
         BeanUtils.copyProperties(adminActionDTO,adminAction);
@@ -71,18 +65,10 @@ public class AdminActionServiceImpl implements AdminActionService {
      * @param adminActionDTO
      */
     @Override
+    @CheckPermission(roles = {UserRoleConstant.ROOT,UserRoleConstant.ADMIN}, allowSelf = false)
     public void banUser(AdminActionDTO adminActionDTO) {
         //检查是否有权限
         Long adminId = BaseContext.getCurrentId();
-        String adminRole = userMapper.getUserRoleById(adminId);
-        if (!adminRole.equals("ADMIN")){
-            throw new NoPermissionException(MessageConstant.NO_PERMISSION);
-        }
-
-        //检查是否为相应类型
-        if (!adminActionDTO.getActionType().equals("banUser")){
-            throw new TypeNotSameException(MessageConstant.TYPE_NOT_SAME);
-        }
 
         boolean userIsBanned = userMapper.getIsBanned(adminActionDTO.getTargetId());
         if (!userIsBanned){
@@ -99,18 +85,10 @@ public class AdminActionServiceImpl implements AdminActionService {
     }
 
     @Override
+    @CheckPermission(roles = {UserRoleConstant.ROOT,UserRoleConstant.ADMIN}, allowSelf = true)
     public void banPost(AdminActionDTO adminActionDTO) {
         //检查是否有权限
         Long adminId = BaseContext.getCurrentId();
-        String adminRole = userMapper.getUserRoleById(adminId);
-        if (!adminRole.equals("ADMIN")){
-            throw new NoPermissionException(MessageConstant.NO_PERMISSION);
-        }
-
-        //检查是否为相应类型
-        if (!adminActionDTO.getActionType().equals("banPost")){
-            throw new TypeNotSameException(MessageConstant.TYPE_NOT_SAME);
-        }
 
         boolean postIsBanned = postMapper.getIsBanned(adminActionDTO.getTargetId());
         if (!postIsBanned){
@@ -127,18 +105,10 @@ public class AdminActionServiceImpl implements AdminActionService {
     }
 
     @Override
+    @CheckPermission(roles = {UserRoleConstant.ROOT,UserRoleConstant.ADMIN}, allowSelf = true)
     public void banComment(AdminActionDTO adminActionDTO) {
         //检查是否有权限
         Long adminId = BaseContext.getCurrentId();
-        String adminRole = userMapper.getUserRoleById(adminId);
-        if (!adminRole.equals("ADMIN")){
-            throw new NoPermissionException(MessageConstant.NO_PERMISSION);
-        }
-
-        //检查是否为相应类型
-        if (!adminActionDTO.getActionType().equals("banComment")){
-            throw new TypeNotSameException(MessageConstant.TYPE_NOT_SAME);
-        }
 
         boolean commentIsBanned = commentMapper.getIsBanned(adminActionDTO.getTargetId());
         if (!commentIsBanned){
@@ -153,4 +123,5 @@ public class AdminActionServiceImpl implements AdminActionService {
         adminActionMapper.insert(adminAction);
 
     }
+
 }

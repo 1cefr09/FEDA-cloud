@@ -61,6 +61,6 @@ CREATE TABLE admin_action (
     admin_id BIGINT NOT NULL,
     action_type VARCHAR(255) NOT NULL,
     target_id BIGINT NOT NULL,
-    target_type VARCHAR(255) NOT NULL,
+#     target_type VARCHAR(255) NOT NULL,
     timestamp DATETIME NOT NULL
 );
