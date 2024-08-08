@@ -15,4 +15,8 @@ public class MessageConstant {
     public static final String TITLE_EMPTY = "标题为空";
 
     public static final String CONTENT_EMPTY = "内容为空";
+
+    public static final String TYPE_NOT_SAME = "操作类型不一致";
+
+    public static final String NO_PERMISSION = "用户无权限";
 }

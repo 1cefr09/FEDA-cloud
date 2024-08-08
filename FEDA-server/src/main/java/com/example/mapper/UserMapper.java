@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.example.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
@@ -38,6 +39,17 @@ public interface UserMapper {
      */
     Boolean getIsBanned(long id);
 
+    void updateUserBanned(@Param("targetId") long targetId,@Param("userIsBanned") boolean userIsBanned);
+
     void update(User user);
+
+    /**
+     * 根据id查身份
+     * @param id
+     * @return
+     */
+    String getUserRoleById(Long id);
+
+    void updateUserRole(@Param("targetId") long targetId,@Param("userRole") String userRole);
 
 }

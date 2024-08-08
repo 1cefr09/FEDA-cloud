@@ -89,10 +89,6 @@ public class PostServiceImpl implements PostService {
 
     }
 
-    @Override
-    public void postDelete(Long id) {
-
-    }
 
     @Override
     public long getCategoryIdByName(String categoryName) {

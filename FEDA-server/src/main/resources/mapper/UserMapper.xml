@@ -27,7 +27,20 @@
     <select id="getIsBanned" parameterType="long" resultType="boolean">
         select is_banned from user where id = #{id}
     </select>
+
+    <update id="updateUserBanned">
+        update user set is_banned = #{userIsBanned} where id = #{targetId}
+    </update>
+
     <select id="getById" resultType="com.example.entity.User">
         select * from user where id = #{id}
     </select>
+
+    <select id="getUserRoleById" parameterType="long" resultType="string">
+        select role from user where id = #{id}
+    </select>
+
+    <update id="updateUserRole">
+        update user set role = #{userRole} where id = #{targetId}
+    </update>
 </mapper>

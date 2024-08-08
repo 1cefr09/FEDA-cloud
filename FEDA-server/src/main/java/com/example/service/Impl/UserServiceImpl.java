@@ -86,6 +86,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    /**
+     * 用户改名时的更新
+     */
     public UserVO updateUser(long id, UserDTO userDTO) {
         User user = userMapper.getById(id);
         //更新其它表的username

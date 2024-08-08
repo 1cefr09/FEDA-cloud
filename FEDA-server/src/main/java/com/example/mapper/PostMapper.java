@@ -23,6 +23,10 @@ public interface PostMapper {
 
     void updateUsername(@Param("Id") long Id, @Param("username") String username);
 
+    Boolean getIsBanned(long id);
+
+    void updatePostBanned(@Param("targetId") long targetId,@Param("postIsBanned") boolean postIsBanned);
+
     /**
      * post分页查询
      * @param postPageQueryDTO

@@ -17,6 +17,10 @@ public interface CommentMapper {
      */
     void insert(Comment comment);
 
+    Boolean getIsBanned(long id);
+
+    void updateCommentBanned(@Param("targetId") long targetId,@Param("commentIsBanned") boolean commentIsBanned);
+
     void updateUsername(@Param("Id") long Id, @Param("username") String username);
     /**
      * comment回帖查询

@@ -1,14 +1,13 @@
 package com.example.dto;
 
+import lombok.Data;
+
+@Data
 public class AdminActionDTO {
-    private Long id;
+    private String actionType;
 
-    private Long postId;
+    private Long targetId;
 
-    private Long parentId;
-
-    private String content;
-
-    private Long authorId;
+    private String targetType;
 
 }

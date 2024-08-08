@@ -22,12 +22,6 @@ public interface PostService {
      */
     Post userPost(PostDTO postDTO);
 
-    /**
-     *根据帖子id删帖
-     * @param id
-     */
-    void postDelete(Long id);
-
     long getCategoryIdByName(String categoryName);
 
 }

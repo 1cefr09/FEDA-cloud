@@ -14,6 +14,14 @@
         update post set author_name = #{username} where author_id = #{Id}
     </update>
 
+    <select id="getIsBanned" parameterType="long" resultType="boolean">
+        select is_banned from post where id = #{id}
+    </select>
+
+    <update id="updatePostBanned">
+        update post set is_banned = #{postIsBanned} where id = #{targetId}
+    </update>
+
     <select id="postPageQuery" parameterType="com.example.dto.PostPageQueryDTO" resultType="com.example.vo.PostVO">
         SELECT *
         FROM post
