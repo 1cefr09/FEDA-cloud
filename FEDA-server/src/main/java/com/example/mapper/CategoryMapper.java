@@ -16,4 +16,6 @@ public interface CategoryMapper {
 
     long getCategoryIdByName(String categoryName);
 
+    void insert(Category category);
+
 }

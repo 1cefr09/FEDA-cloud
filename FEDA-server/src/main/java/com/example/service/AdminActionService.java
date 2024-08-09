@@ -2,6 +2,7 @@ package com.example.service;
 
 
 import com.example.dto.AdminActionDTO;
+import com.example.dto.CategoryDTO;
 
 public interface AdminActionService {
 
@@ -16,5 +17,7 @@ public interface AdminActionService {
     void banPost(AdminActionDTO adminActionDTO);
 
     void banComment(AdminActionDTO adminActionDTO);
+
+    void createCategory(CategoryDTO categoryDTO);
 
 }

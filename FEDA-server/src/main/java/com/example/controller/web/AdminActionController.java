@@ -2,6 +2,7 @@ package com.example.controller.web;
 
 import com.example.constant.MessageConstant;
 import com.example.dto.AdminActionDTO;
+import com.example.dto.CategoryDTO;
 import com.example.exception.TypeNotSameException;
 import com.example.result.Result;
 import com.example.service.AdminActionService;
@@ -62,6 +63,13 @@ public class AdminActionController {
     public Result banComment(@RequestBody AdminActionDTO adminActionDTO) {
         log.info("adminActionDTO: {}", adminActionDTO);
         adminActionService.banComment(adminActionDTO);
+        return Result.success();
+    }
+
+    @PostMapping("/createCategory")
+    public Result createCategory(@RequestBody CategoryDTO categoryDTO) {
+        log.info("categoryDTO: {}", categoryDTO);
+        adminActionService.createCategory(categoryDTO);
         return Result.success();
     }
 

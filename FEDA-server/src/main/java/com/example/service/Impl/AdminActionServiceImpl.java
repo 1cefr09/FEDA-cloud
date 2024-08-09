@@ -5,17 +5,17 @@ import com.example.constant.MessageConstant;
 import com.example.constant.UserRoleConstant;
 import com.example.context.BaseContext;
 import com.example.dto.AdminActionDTO;
+import com.example.dto.CategoryDTO;
 import com.example.entity.AdminAction;
+import com.example.entity.Category;
 import com.example.exception.NoPermissionException;
 import com.example.exception.TypeNotSameException;
-import com.example.mapper.AdminActionMapper;
-import com.example.mapper.CommentMapper;
-import com.example.mapper.PostMapper;
-import com.example.mapper.UserMapper;
+import com.example.mapper.*;
 import com.example.service.AdminActionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -35,6 +35,9 @@ public class AdminActionServiceImpl implements AdminActionService {
     @Autowired
     private CommentMapper commentMapper;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
 
     /**
      * 用户权限的更改
@@ -42,6 +45,7 @@ public class AdminActionServiceImpl implements AdminActionService {
      */
     @Override
     @CheckPermission(roles = {UserRoleConstant.ROOT}, allowSelf = false)
+    @Transactional
     public void userToAdmin(AdminActionDTO adminActionDTO) {
         //检查是否有权限
         Long adminId = BaseContext.getCurrentId();
@@ -66,6 +70,7 @@ public class AdminActionServiceImpl implements AdminActionService {
      */
     @Override
     @CheckPermission(roles = {UserRoleConstant.ROOT,UserRoleConstant.ADMIN}, allowSelf = false)
+    @Transactional
     public void banUser(AdminActionDTO adminActionDTO) {
         //检查是否有权限
         Long adminId = BaseContext.getCurrentId();
@@ -86,6 +91,7 @@ public class AdminActionServiceImpl implements AdminActionService {
 
     @Override
     @CheckPermission(roles = {UserRoleConstant.ROOT,UserRoleConstant.ADMIN}, allowSelf = true)
+    @Transactional
     public void banPost(AdminActionDTO adminActionDTO) {
         //检查是否有权限
         Long adminId = BaseContext.getCurrentId();
@@ -106,6 +112,7 @@ public class AdminActionServiceImpl implements AdminActionService {
 
     @Override
     @CheckPermission(roles = {UserRoleConstant.ROOT,UserRoleConstant.ADMIN}, allowSelf = true)
+    @Transactional
     public void banComment(AdminActionDTO adminActionDTO) {
         //检查是否有权限
         Long adminId = BaseContext.getCurrentId();
@@ -122,6 +129,26 @@ public class AdminActionServiceImpl implements AdminActionService {
         adminAction.setAdminId(adminId);
         adminActionMapper.insert(adminAction);
 
+    }
+
+    @Override
+    @Transactional
+    public void createCategory(CategoryDTO categoryDTO) {
+        //检查是否有权限
+        Long adminId = BaseContext.getCurrentId();
+        String adminRole = userMapper.getUserRoleById(adminId);
+        if (!Objects.equals(adminRole, UserRoleConstant.ROOT)){
+            throw new NoPermissionException(MessageConstant.NO_PERMISSION);
+        }
+
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO,category);
+        categoryMapper.insert(category);
+        AdminAction adminAction = new AdminAction();
+        adminAction.setAdminId(adminId);
+        adminAction.setActionType("createCategory");
+        adminAction.setTargetId(categoryMapper.getCategoryIdByName(category.getCategoryName()));
+        adminActionMapper.insert(adminAction);
     }
 
 }
