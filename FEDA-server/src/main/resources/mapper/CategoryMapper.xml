@@ -6,11 +6,17 @@
         INSERT INTO category (category_name,is_banned,create_time,update_time)
         VALUES (#{categoryName},#{isBanned},now(),now())
     </insert>
+    <update id="updateCategoryBanned">
+        UPDATE category SET is_banned = #{categoryIsBanned} WHERE id = #{targetId}
+    </update>
 
     <select id="categoryListQuery" resultType="com.example.vo.CategoryVO">
         SELECT * FROM category
     </select>
     <select id="getCategoryIdByName" resultType="java.lang.Long">
         SELECT id FROM category WHERE category_name = #{categoryName}
+    </select>
+    <select id="getIsBannedById" resultType="java.lang.Boolean">
+        SELECT is_banned FROM category WHERE id = #{id}
     </select>
 </mapper>

@@ -151,4 +151,22 @@ public class AdminActionServiceImpl implements AdminActionService {
         adminActionMapper.insert(adminAction);
     }
 
+    @Override
+    @Transactional
+    @CheckPermission(roles = {UserRoleConstant.ROOT}, allowSelf = false)
+    public void banCategory(AdminActionDTO adminActionDTO) {
+        Long adminId = BaseContext.getCurrentId();
+        boolean categoryIsBanned = categoryMapper.getIsBannedById(adminActionDTO.getTargetId());
+        if (!categoryIsBanned){
+            categoryMapper.updateCategoryBanned(adminActionDTO.getTargetId(),true);
+        }else {
+            categoryMapper.updateCategoryBanned(adminActionDTO.getTargetId(),false);
+        }
+
+        AdminAction adminAction = new AdminAction();
+        BeanUtils.copyProperties(adminActionDTO,adminAction);
+        adminAction.setAdminId(adminId);
+        adminActionMapper.insert(adminAction);
+    }
+
 }

@@ -20,4 +20,6 @@ public interface AdminActionService {
 
     void createCategory(CategoryDTO categoryDTO);
 
+    void banCategory(AdminActionDTO adminActionDTO);
+
 }

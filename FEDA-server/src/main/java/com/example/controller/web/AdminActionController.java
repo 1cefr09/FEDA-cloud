@@ -38,6 +38,9 @@ public class AdminActionController {
             case "banComment":
                 adminActionService.banComment(adminActionDTO);
                 break;
+            case "banCategory":
+                adminActionService.banCategory(adminActionDTO);
+                break;
             default:
                 throw new TypeNotSameException(MessageConstant.TYPE_NOT_SAME);
         }
@@ -70,6 +73,13 @@ public class AdminActionController {
     public Result createCategory(@RequestBody CategoryDTO categoryDTO) {
         log.info("categoryDTO: {}", categoryDTO);
         adminActionService.createCategory(categoryDTO);
+        return Result.success();
+    }
+
+    @PostMapping("/banCategory")
+    public Result banCategory(@RequestBody AdminActionDTO adminActionDTO) {
+        log.info("adminActionDTO: {}", adminActionDTO);
+        adminActionService.banCategory(adminActionDTO);
         return Result.success();
     }
 
