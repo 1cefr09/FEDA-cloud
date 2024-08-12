@@ -15,7 +15,7 @@ spring:
   redis:
     host: ${example.redis.host}
     port: ${example.redis.port}
-    password: ${example.redis.password}
+#    password: ${example.redis.password}
     #database: ${example.redis.database}
 
 

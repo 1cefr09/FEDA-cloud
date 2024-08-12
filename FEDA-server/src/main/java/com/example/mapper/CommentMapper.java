@@ -31,5 +31,5 @@ public interface CommentMapper {
 
     long getAuthorIdByCommentId(long commentId);
 
-    long getMaxFloorByPostId(long postId);
+    Long getMaxFloorByPostId(long postId);
 }

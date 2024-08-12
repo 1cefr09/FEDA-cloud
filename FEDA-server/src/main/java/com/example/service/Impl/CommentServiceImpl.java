@@ -15,6 +15,8 @@ import com.example.vo.CommentVO;
 import com.github.pagehelper.Constant;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -39,6 +41,8 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private RedissonClient redissonClient;
     /**
      * 用户回帖
      * @param commentDTO
@@ -53,35 +57,61 @@ public class CommentServiceImpl implements CommentService {
             throw new ContentIsEmptyException(MessageConstant.CONTENT_EMPTY);
         }
 
+        Comment comment = new Comment();
+        BeanUtils.copyProperties(commentDTO, comment);
+        String authorName = userMapper.getUsernameById(commentDTO.getAuthorId());
+        comment.setAuthorName(authorName);
+
         //生成Redis的锁的key并且细化颗粒度，针对每个帖子独立
         String lockKey = "commentFloorLock" + commentDTO.getPostId();
+//        //获取Redis锁
+//        boolean lockAcquired = redisTemplate.opsForValue().setIfAbsent(lockKey,"locker",5, TimeUnit.SECONDS);
+//
+//        if (Boolean.TRUE.equals(lockAcquired)){
+//            try{
+//                Long maxFloor = commentMapper.getMaxFloorByPostId(commentDTO.getPostId());
+//                Long newFloor = (maxFloor == null) ? 2L : maxFloor + 1L;
+//                comment.setFloor(newFloor);
+//
+//                //保存实体到数据库
+//                commentMapper.insert(comment);
+//                postMapper.update(commentDTO.getPostId());
+//                //返回保存后的实体
+//                return comment;
+//            } finally {
+//                //释放锁
+//                redisTemplate.delete(lockKey);
+//            }
+//        }else {
+//            throw new CantGetLockException(MessageConstant.CANT_GET_LOCK);
+//        }
 
-        //获取Redis锁
-        boolean lockAcquired = redisTemplate.opsForValue().setIfAbsent(lockKey,"locker",5, TimeUnit.SECONDS);
 
-        if (Boolean.TRUE.equals(lockAcquired)){
-            try{
-                Long maxFloor = commentMapper.getMaxFloorByPostId(commentDTO.getPostId());
-                Long newFloor = (maxFloor == null) ? 2L : maxFloor + 1L;
-
-                Comment comment = new Comment();
-                BeanUtils.copyProperties(commentDTO,comment);
-                String authorName = userMapper.getUsernameById(commentDTO.getAuthorId());
-                comment.setAuthorName(authorName);
-                comment.setFloor(newFloor);
-
-                //保存实体到数据库
-                commentMapper.insert(comment);
-                postMapper.update(commentDTO.getPostId());
-                //返回保存后的实体
-                return comment;
-            } finally {
-                //释放锁
-                redisTemplate.delete(lockKey);
+        RLock lock = redissonClient.getLock("commentLock:" + commentDTO.getPostId());
+        try {
+            // 尝试获取锁，等待时间为10秒，锁定时间为5秒
+            if (lock.tryLock(10, 5, TimeUnit.SECONDS)) {
+                try {
+                    // 获取当前帖子的最高楼层号
+                    Long maxFloor = commentMapper.getMaxFloorByPostId(commentDTO.getPostId());
+                    Long newFloor = (maxFloor == null) ? 2L : maxFloor + 1L;
+                    comment.setFloor(newFloor);
+                    // 保存实体到数据库
+                    commentMapper.insert(comment);
+                    postMapper.update(commentDTO.getPostId());
+                } finally {
+                    lock.unlock();
+                }
             }
-        }else {
+            else {
+                throw new CantGetLockException(MessageConstant.CANT_GET_LOCK);
+            }
+        } catch (Exception e) {
             throw new CantGetLockException(MessageConstant.CANT_GET_LOCK);
         }
+
+        // 返回保存后的实体
+        return comment;
 
     }
 
