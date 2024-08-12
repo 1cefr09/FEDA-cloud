@@ -30,4 +30,6 @@ public interface CommentMapper {
     Page<CommentVO> commentPageQuery(CommentPageQueryDTO commentPageQueryDTO);
 
     long getAuthorIdByCommentId(long commentId);
+
+    long getMaxFloorByPostId(long postId);
 }

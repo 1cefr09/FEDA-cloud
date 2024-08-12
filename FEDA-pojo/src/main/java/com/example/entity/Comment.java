@@ -20,6 +20,8 @@ public class Comment {
 
     private boolean isBanned = false;
 
+    private Long floor;
+
     private Long authorId;
 
     private String authorName;

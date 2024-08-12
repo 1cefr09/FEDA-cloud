@@ -19,4 +19,6 @@ public class MessageConstant {
     public static final String TYPE_NOT_SAME = "操作类型不一致";
 
     public static final String NO_PERMISSION = "用户无权限";
+
+    public static final String CANT_GET_LOCK = "获取不到锁";
 }

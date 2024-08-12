@@ -51,6 +51,7 @@ CREATE TABLE comment
     author_id BIGINT NOT NULL COMMENT'作者id',
     author_name VARCHAR(50) NOT NULL COMMENT'作者名',
     is_banned BOOLEAN NOT NULL DEFAULT FALSE,
+    floor BIGINT NOT NULL COMMENT '楼层',
     create_time DATETIME NOT NULL COMMENT'创建时间'
 )
     COMMENT'回帖';
