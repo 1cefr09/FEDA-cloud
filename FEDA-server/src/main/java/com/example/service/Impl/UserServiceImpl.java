@@ -6,11 +6,10 @@ import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
 import com.example.exception.AccountNotFoundException;
 import com.example.exception.PasswordErrorException;
-import com.example.exception.UsernameAlreadyExistException;
+import com.example.exception.AlreadyExistException;
 import com.example.mapper.CommentMapper;
 import com.example.mapper.PostMapper;
 import com.example.mapper.UserMapper;
-import com.example.service.PostService;
 import com.example.service.UserService;
 import com.example.vo.UserVO;
 import org.springframework.beans.BeanUtils;
@@ -37,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
         //检查是否有重复用户名
         if (userMapper.getByUsername(userDTO.getUsername()) != null){
-            throw new UsernameAlreadyExistException(MessageConstant.USERNAME_EXIST);
+            throw new AlreadyExistException(MessageConstant.USERNAME_EXIST);
         }
 
         BeanUtils.copyProperties(userDTO,user);

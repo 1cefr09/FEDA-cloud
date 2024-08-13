@@ -1,13 +1,11 @@
 package com.example.handler;
 
-import com.example.constant.MessageConstant;
 import com.example.exception.*;
 import com.example.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -18,8 +16,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
 
-    @ExceptionHandler(UsernameAlreadyExistException.class)//处理用户名已存在异常
-    public ResponseEntity<Result> handleUsernameAlreadyExistException(UsernameAlreadyExistException ex){
+    @ExceptionHandler(AlreadyExistException.class)//处理用户名已存在异常
+    public ResponseEntity<Result> handleUsernameAlreadyExistException(AlreadyExistException ex){
         String message = ex.getMessage();
         Result result = Result.error(message);
         return new ResponseEntity<>(result, HttpStatus.CONFLICT);

@@ -2,22 +2,28 @@ package com.example.service.Impl;
 
 import com.example.annotation.CheckPermission;
 import com.example.constant.MessageConstant;
+import com.example.constant.RedisConstant;
 import com.example.constant.UserRoleConstant;
 import com.example.context.BaseContext;
 import com.example.dto.AdminActionDTO;
 import com.example.dto.CategoryDTO;
 import com.example.entity.AdminAction;
 import com.example.entity.Category;
+import com.example.exception.AlreadyExistException;
 import com.example.exception.NoPermissionException;
 import com.example.exception.TypeNotSameException;
 import com.example.mapper.*;
 import com.example.service.AdminActionService;
+import com.example.vo.CategoryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 //在controller处做区分然后调用相应的服务，这里只需要取出id
 @Service
@@ -37,6 +43,9 @@ public class AdminActionServiceImpl implements AdminActionService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private RedisTemplate<String, List<CategoryVO>> redisTemplate;
 
 
     /**
@@ -140,6 +149,10 @@ public class AdminActionServiceImpl implements AdminActionService {
         if (!Objects.equals(adminRole, UserRoleConstant.ROOT)){
             throw new NoPermissionException(MessageConstant.NO_PERMISSION);
         }
+        //检查是否名字已存在
+        if (categoryMapper.getCategoryIdByName(categoryDTO.getCategoryName()) != null){
+            throw new AlreadyExistException(MessageConstant.ALREDY_EXISTS);
+        }
 
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO,category);
@@ -149,6 +162,7 @@ public class AdminActionServiceImpl implements AdminActionService {
         adminAction.setActionType("createCategory");
         adminAction.setTargetId(categoryMapper.getCategoryIdByName(category.getCategoryName()));
         adminActionMapper.insert(adminAction);
+        updateCategoryCache();
     }
 
     @Override
@@ -167,6 +181,12 @@ public class AdminActionServiceImpl implements AdminActionService {
         BeanUtils.copyProperties(adminActionDTO,adminAction);
         adminAction.setAdminId(adminId);
         adminActionMapper.insert(adminAction);
+        updateCategoryCache();
+    }
+
+    private void updateCategoryCache() {
+        List<CategoryVO> categories = categoryMapper.categoryListQuery();
+        redisTemplate.opsForValue().set(RedisConstant.CATEGORY_LIST_KEY, categories, 12, TimeUnit.HOURS);//缓存12小时
     }
 
 }

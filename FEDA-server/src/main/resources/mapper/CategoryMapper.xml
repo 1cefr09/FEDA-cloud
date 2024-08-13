@@ -11,7 +11,7 @@
     </update>
 
     <select id="categoryListQuery" resultType="com.example.vo.CategoryVO">
-        SELECT * FROM category
+        SELECT * FROM category WHERE is_banned = false
     </select>
     <select id="getCategoryIdByName" resultType="java.lang.Long">
         SELECT id FROM category WHERE category_name = #{categoryName}
