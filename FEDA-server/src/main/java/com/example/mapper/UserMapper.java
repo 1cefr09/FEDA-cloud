@@ -52,4 +52,6 @@ public interface UserMapper {
 
     void updateUserRole(@Param("targetId") long targetId,@Param("userRole") String userRole);
 
+    void updateUserPassword(@Param("targetId") long targetId,@Param("password") String password);
+
 }

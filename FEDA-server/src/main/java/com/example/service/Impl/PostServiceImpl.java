@@ -14,6 +14,7 @@ import com.example.mapper.PostMapper;
 import com.example.mapper.UserMapper;
 import com.example.result.PageResult;
 import com.example.service.PostService;
+import com.example.utils.InfoIsValidUtil;
 import com.example.vo.PostVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -75,6 +76,7 @@ public class PostServiceImpl implements PostService {
             throw new ContentIsEmptyException(MessageConstant.CONTENT_EMPTY);
         }
 
+        InfoIsValidUtil.isValidTitle(postDTO.getTitle());
         Post post = new Post();
         BeanUtils.copyProperties(postDTO,post);
         //post.setAuthorId(postDTO.getAuthorId());

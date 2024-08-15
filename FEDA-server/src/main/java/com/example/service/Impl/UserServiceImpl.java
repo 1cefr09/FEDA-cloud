@@ -5,12 +5,14 @@ import com.example.dto.UserDTO;
 import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
 import com.example.exception.AccountNotFoundException;
+import com.example.exception.MessageInvalidException;
 import com.example.exception.PasswordErrorException;
 import com.example.exception.AlreadyExistException;
 import com.example.mapper.CommentMapper;
 import com.example.mapper.PostMapper;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
+import com.example.utils.InfoIsValidUtil;
 import com.example.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,9 @@ public class UserServiceImpl implements UserService {
         if (userMapper.getByUsername(userDTO.getUsername()) != null){
             throw new AlreadyExistException(MessageConstant.USERNAME_EXIST);
         }
-
+        //检查用户名和密码是否合法
+        InfoIsValidUtil.isValidUsername(userDTO.getUsername());
+        InfoIsValidUtil.isValidPassword(userDTO.getPassword());
         BeanUtils.copyProperties(userDTO,user);
         String originalPassword = userDTO.getPassword();
         user.setPassword(DigestUtils.sha256Hex(originalPassword)); //保存加密后的密码
@@ -86,17 +90,33 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     /**
-     * 用户改名时的更新
+     * 用户更改信息时的更新
      */
     public UserVO updateUser(long id, UserDTO userDTO) {
-        User user = userMapper.getById(id);
-        //更新其它表的username
-        if (!user.getUsername().equals(userDTO.getUsername())){
-            postMapper.updateUsername(user.getId(),userDTO.getUsername());
-            commentMapper.updateUsername(user.getId(),userDTO.getUsername());
+        if (userDTO.getUsername().isEmpty() && userDTO.getPassword().isEmpty() && userDTO.getEmail().isEmpty()){
+            throw new MessageInvalidException(MessageConstant.MESSAGE_INVALID);
         }
-        userDTO.setPassword(DigestUtils.sha256Hex(userDTO.getPassword()));
-        BeanUtils.copyProperties(userDTO,user);
+        User user = userMapper.getById(id);
+        //更新其它表和user表中的username
+        if (!userDTO.getUsername().isEmpty()){
+            InfoIsValidUtil.isValidUsername(userDTO.getUsername());
+            if (!user.getUsername().equals(userDTO.getUsername())){
+                postMapper.updateUsername(user.getId(),userDTO.getUsername());
+                commentMapper.updateUsername(user.getId(),userDTO.getUsername());
+            }
+            user.setUsername(userDTO.getUsername());
+        }
+        //更新user表中密码
+        if (!userDTO.getPassword().isEmpty()){
+            InfoIsValidUtil.isValidPassword(userDTO.getPassword());
+            String newPassword = DigestUtils.sha256Hex(userDTO.getPassword());
+            user.setPassword(newPassword);
+        }
+        //更新user表中邮箱
+        if (!userDTO.getEmail().isEmpty()){
+            user.setEmail(userDTO.getEmail());
+        }
+
         userMapper.update(user);
 
 
