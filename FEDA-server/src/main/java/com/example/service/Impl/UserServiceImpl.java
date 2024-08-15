@@ -99,6 +99,9 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getById(id);
         //更新其它表和user表中的username
         if (!userDTO.getUsername().isEmpty()){
+            if (userMapper.getByUsername(userDTO.getUsername()) != null && !user.getUsername().equals(userDTO.getUsername())){
+                throw new AlreadyExistException(MessageConstant.USERNAME_EXIST);
+            }
             InfoIsValidUtil.isValidUsername(userDTO.getUsername());
             if (!user.getUsername().equals(userDTO.getUsername())){
                 postMapper.updateUsername(user.getId(),userDTO.getUsername());
