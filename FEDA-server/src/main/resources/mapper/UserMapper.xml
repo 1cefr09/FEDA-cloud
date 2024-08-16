@@ -43,4 +43,11 @@
     <update id="updateUserRole">
         update user set role = #{userRole} where id = #{targetId}
     </update>
+    <update id="activateUser">
+        update user set
+                    is_banned = false,
+                    is_activated = true,
+                    update_time=now()
+                    where id = #{id}
+    </update>
 </mapper>

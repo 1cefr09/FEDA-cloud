@@ -87,9 +87,10 @@ public class UserController {
 
     @GetMapping("/activate")
     @ApiOperation(value = "用户激活")
-    public Result activateUser(@RequestParam Long userId) {
-        Long curId = BaseContext.getCurrentId();
-        userService.activateUser(userId,curId);
+    public Result activateUser(@RequestParam String code, @RequestParam Long Id) {
+        log.info("用户激活，code:{}", code);
+//        Long Id = BaseContext.getCurrentId();//不用jwt获取了，直接传入
+        userService.activateUser(Id, code);
         return Result.success(MessageConstant.ACTIVATE_SUCCESS);
     }
 
@@ -105,6 +106,7 @@ public class UserController {
                 .role(user.getRole())
                 .email(user.getEmail())
                 .isBanned(user.isBanned())
+                .isActivated(user.isActivated())
                 .build();
         return Result.success(userVO);
     }

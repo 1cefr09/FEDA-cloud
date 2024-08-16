@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/api/**")             //设置拦截路径
-                .excludePathPatterns("/api/user/login","/api/user/register");          //设置放行路径
+                .excludePathPatterns("/api/user/login","/api/user/register","/api/user/activate");   //设置放行路径
     }
 
 

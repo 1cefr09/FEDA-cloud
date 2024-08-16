@@ -12,6 +12,7 @@ import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 import com.example.utils.InfoIsValidUtil;
 import com.example.vo.UserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -69,32 +71,43 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendActivateEmail(Long id){
         User user = userMapper.getById(id);
+        if (user.isActivated()){
+            throw new AlreadyExistException(MessageConstant.USER_ACTIVATED);
+        }
         //发送激活邮件
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
             messageHelper.setFrom(sendFrom);
             messageHelper.setTo(user.getEmail());
-            String subject = "FEDA注册验证";
+            String subject = "FEDA注册邮箱验证";
             messageHelper.setSubject(subject);
-            String content = "用户:  " + user.getUsername() + "  邮箱激活，请点击链接激活:"
-                    + "<a href='http://localhost:8080/api/user/activate?userId="
-                    + id.toString() + "'>http://localhost:8080/api/user/activate?userId="
-                    + id + "</a>";
+            String code = UUID.randomUUID().toString().substring(0,6);//生成6位验证码
+            String content = "用户:  " + user.getUsername() +"Id:  " + user.getId() + "  邮箱激活验证码如下，30分钟有效:" + code +
+            "<br>或点击以下链接进行激活:<a href=\"http://localhost:8080/api/user/activate?code=" + code + "&Id=" + user.getId() + "\">激活链接</a>";
             messageHelper.setText(content, true);
             mailSender.send(message);
+            //将验证码存入redis
+            redisTemplate.opsForValue().set("emailCode" + user.getId(),code,30, TimeUnit.MINUTES);
         } catch (MessagingException e) {
             throw new MailSendException(MessageConstant.MAIL_SEND_FAILED);
         }
     }
 
     @Override
-    public void activateUser(Long userId, Long curId){
-        if (!userId.equals(curId)){
-            throw new NoPermissionException(MessageConstant.NO_PERMISSION);
-        }else {
-            userMapper.updateUserBanned(userId,false);
+    @Transactional
+    public void activateUser(Long Id, String code){
+        User user = userMapper.getById(Id);
+        if (user.isActivated()){
+            throw new AlreadyExistException(MessageConstant.USER_ACTIVATED);
         }
+        String redisCode = (String) redisTemplate.opsForValue().get("emailCode" + Id);
+//        log.info("redisCode:{}",redisCode);
+        if (redisCode == null || !redisCode.equals(code)){
+            throw new CodeErrorException(MessageConstant.CODE_ERROR);
+        }
+        redisTemplate.delete("emailCode" + Id);
+        userMapper.activateUser(Id);
     }
 
     @Override

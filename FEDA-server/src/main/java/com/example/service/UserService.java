@@ -18,7 +18,7 @@ public interface UserService {
 
     void sendActivateEmail(Long id);
 
-    void activateUser(Long userId, Long curId);
+    void activateUser(Long Id, String code);
 
     UserVO updateUser(long id ,UserDTO userDTO);
 

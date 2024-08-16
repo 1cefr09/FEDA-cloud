@@ -29,4 +29,10 @@ public class MessageConstant {
     public static final String MAIL_SEND_SUCCESS = "邮件发送成功";
 
     public static final String ACTIVATE_SUCCESS = "激活成功";
+
+    public static final String USER_ACTIVATED = "已激活";
+
+    public static final String ACCOUNT_NOT_ACTIVATED = "账号未激活，请验证邮箱";
+
+    public static final String CODE_ERROR = "激活验证码错误";
 }
