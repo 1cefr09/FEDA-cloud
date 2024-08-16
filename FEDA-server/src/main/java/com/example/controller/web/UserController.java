@@ -6,7 +6,6 @@ import com.example.context.BaseContext;
 import com.example.dto.UserDTO;
 import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
-import com.example.exception.BaseException;
 import com.example.exception.ParamErrorException;
 import com.example.mapper.UserMapper;
 import com.example.properties.JwtProperties;
@@ -18,13 +17,11 @@ import com.example.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 用户
@@ -47,12 +44,6 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperation(value = "用户注册")
     public Result UserRegister(@RequestBody UserDTO userDTO){
-
-        //判断两次密码是否一致
-       // if (!Objects.equals(userDTO.getPassword(), userDTO.getPasswordRepeat())){
-       //     return Result.error("两次密码不一致");
-      //  }
-
 
         log.info("用户注册{}", userDTO);
         userService.UserRegister(userDTO);
@@ -84,6 +75,22 @@ public class UserController {
                 .build();
 
         return Result.success(userLoginVO);
+    }
+
+    @GetMapping("/sendActivate")
+    @ApiOperation(value = "发送邮件激活地址")
+    public Result sendActivateEmail() {
+        Long userId = BaseContext.getCurrentId();
+        userService.sendActivateEmail(userId);
+        return Result.success(MessageConstant.MAIL_SEND_SUCCESS);
+    }
+
+    @GetMapping("/activate")
+    @ApiOperation(value = "用户激活")
+    public Result activateUser(@RequestParam Long userId) {
+        Long curId = BaseContext.getCurrentId();
+        userService.activateUser(userId,curId);
+        return Result.success(MessageConstant.ACTIVATE_SUCCESS);
     }
 
     @GetMapping("/getSelfInfo")

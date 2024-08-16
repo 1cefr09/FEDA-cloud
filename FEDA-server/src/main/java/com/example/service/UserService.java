@@ -16,6 +16,10 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
+    void sendActivateEmail(Long id);
+
+    void activateUser(Long userId, Long curId);
+
     UserVO updateUser(long id ,UserDTO userDTO);
 
 }

@@ -9,6 +9,8 @@ public class MessageConstant {
     public static final String LOGIN_FAILED = "登录失败";
     public static final String PASSWORD_EDIT_FAILED = "密码修改失败";
 
+    public static final String MAIL_SEND_FAILED = "邮件发送失败";
+
     public static final String ALREDY_EXISTS = "已经存在";
     public static final String USERNAME_EXIST = "用户名已存在";
 
@@ -23,4 +25,8 @@ public class MessageConstant {
     public static final String NO_PERMISSION = "用户无权限";
 
     public static final String CANT_GET_LOCK = "获取不到锁";
+
+    public static final String MAIL_SEND_SUCCESS = "邮件发送成功";
+
+    public static final String ACTIVATE_SUCCESS = "激活成功";
 }

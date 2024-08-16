@@ -11,3 +11,8 @@ example:
     port: 6379
 #    password: "123456"
     #database: 0
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 1009216181@qq.com
+    password: hiuijfuvcqegbbef

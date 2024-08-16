@@ -17,6 +17,11 @@ spring:
     port: ${example.redis.port}
     #    password: ${example.redis.password}
     #database: ${example.redis.database}
+  mail:
+    host: ${example.mail.host}
+    port: ${example.mail.port}
+    username: ${example.mail.username}
+    password: ${example.mail.password}
 
 
 mybatis:

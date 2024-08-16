@@ -73,6 +73,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(MailSendException.class)//邮件发送异常
+    public ResponseEntity<Result> handleMailSendException(MailSendException ex){
+        String message = ex.getMessage();
+        Result result = Result.error(message);
+        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(BaseException.class)//处理其它异常
     public ResponseEntity<Result> handleBaseException(BaseException ex){
         String message = ex.getMessage();
