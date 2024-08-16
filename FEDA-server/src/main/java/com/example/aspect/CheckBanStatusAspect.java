@@ -42,9 +42,13 @@ public class CheckBanStatusAspect {
         //String token = request.getHeader(jwtProperties.getAdminTokenName());
         //Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(),token);
         Long userId = BaseContext.getCurrentId();
-        boolean isBanned = userMapper.getIsBanned(userId);
+        User user = userMapper.getById(userId);
 
-        if (isBanned){
+        if (!user.isActivated()){
+            throw new AccountBannedException(MessageConstant.ACCOUNT_NOT_ACTIVATED);
+        }
+
+        if (user.isBanned()){
             throw new AccountBannedException(MessageConstant.ACCOUNT_BANNED);
         }
     }

@@ -17,6 +17,8 @@ public class User {
 
     private boolean isBanned = true;
 
+    private boolean isActivated = false;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
