@@ -24,6 +24,10 @@
         select username from user where id = #{id}
     </select>
 
+    <select id="getUserIdByName" parameterType="string" resultType="long">
+        select id from user where username = #{username}
+    </select>
+
     <select id="getIsBanned" parameterType="long" resultType="boolean">
         select is_banned from user where id = #{id}
     </select>

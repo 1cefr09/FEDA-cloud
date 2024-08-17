@@ -32,6 +32,8 @@ public interface UserMapper {
     //@Select("select username from user where id = #{id}")
     String getUsernameById(Long id);
 
+    Long getUserIdByName(String username);
+
     /**
      * 查询账户是否被ban
      * @param id

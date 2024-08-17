@@ -63,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setAuthorName(authorName);
 
         //生成Redis的锁的key并且细化颗粒度，针对每个帖子独立
-        String lockKey = "commentFloorLock" + commentDTO.getPostId();
+        //String lockKey = "commentFloorLock" + commentDTO.getPostId();
 //        //获取Redis锁
 //        boolean lockAcquired = redisTemplate.opsForValue().setIfAbsent(lockKey,"locker",5, TimeUnit.SECONDS);
 //

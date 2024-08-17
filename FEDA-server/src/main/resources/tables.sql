@@ -57,6 +57,19 @@ CREATE TABLE comment
 )
     COMMENT'回帖';
 
+CREATE TABLE message
+(
+    id BIGINT PRIMARY KEY auto_increment COMMENT'私信id',
+    sender_id BIGINT NOT NULL COMMENT'发信人id',
+    sender_name VARCHAR(50) NOT NULL COMMENT '发信人名',
+    receiver_id BIGINT NOT NULL COMMENT'收信人id',
+    receiver_name VARCHAR(50) NOT NULL COMMENT '收信人名',
+    content TEXT NOT NULL COMMENT'私信内容',
+    have_read BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否已读',
+    create_time DATETIME NOT NULL COMMENT'创建时间'
+)
+    COMMENT'私信';
+
 
 CREATE TABLE admin_action (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
