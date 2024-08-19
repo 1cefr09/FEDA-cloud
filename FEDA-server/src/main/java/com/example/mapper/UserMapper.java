@@ -41,6 +41,8 @@ public interface UserMapper {
      */
     Boolean getIsBanned(long id);
 
+    Boolean getIsActivated(long id);
+
     void updateUserBanned(@Param("targetId") long targetId,@Param("userIsBanned") boolean userIsBanned);
 
     void update(User user);

@@ -25,6 +25,9 @@ public class UserLoginVO implements Serializable {
     @ApiModelProperty("是否被禁用")
     private Boolean isBanned;
 
+    @ApiModelProperty("是否已激活")
+    private Boolean isActivated;
+
     @ApiModelProperty("jwt令牌")
     private String token;
 }

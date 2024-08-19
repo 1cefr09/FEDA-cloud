@@ -71,6 +71,7 @@ public class UserController {
                 .id(user.getId())
                 .userName(user.getUsername())
                 .isBanned(userMapper.getIsBanned(user.getId()))
+                .isActivated(userMapper.getIsActivated(user.getId()))
                 .token(token)
                 .build();
 

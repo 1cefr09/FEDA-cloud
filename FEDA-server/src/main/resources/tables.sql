@@ -8,14 +8,14 @@ CREATE TABLE user (
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     role VARCHAR(20) NOT NULL,
-    is_banned BOOLEAN NOT NULL DEFAULT FALSE,
+    is_banned BOOLEAN NOT NULL DEFAULT TRUE,
     is_activated BOOLEAN NOT NULL DEFAULT FALSE,
     create_time DATETIME,
     update_time DATETIME
 );
 
-INSERT INTO user (username, password, role, create_time, update_time)
-VALUES ('root', 'fd5cb51bafd60f6fdbedde6e62c473da6f247db271633e15919bab78a02ee9eb', 'ROOT', NOW(), NOW());
+INSERT INTO user (username, password, role, is_banned, is_activated, create_time, update_time)
+VALUES ('root', 'fd5cb51bafd60f6fdbedde6e62c473da6f247db271633e15919bab78a02ee9eb', 'ROOT', FALSE,TRUE,NOW(), NOW());
 
 CREATE TABLE category (
                           id INT PRIMARY KEY AUTO_INCREMENT,
