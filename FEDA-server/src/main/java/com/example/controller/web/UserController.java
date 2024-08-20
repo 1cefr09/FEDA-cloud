@@ -88,8 +88,11 @@ public class UserController {
 
     @GetMapping("/activate")
     @ApiOperation(value = "用户激活")
-    public Result activateUser(@RequestParam String code, @RequestParam Long Id) {
+    public Result activateUser(@RequestParam String code, @RequestParam(required = false) Long Id) {
         log.info("用户激活，code:{}", code);
+        if (Id == null){
+            Id = BaseContext.getCurrentId();
+        }
 //        Long Id = BaseContext.getCurrentId();//不用jwt获取了，直接传入
         userService.activateUser(Id, code);
         return Result.success(MessageConstant.ACTIVATE_SUCCESS);

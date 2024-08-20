@@ -18,5 +18,7 @@ public class CommentVO implements Serializable {
 
     private String authorName;
 
+    private Long floor;
+
     private LocalDateTime createTime;
 }
