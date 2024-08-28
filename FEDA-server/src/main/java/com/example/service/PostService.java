@@ -5,6 +5,7 @@ import com.example.dto.PostPageQueryDTO;
 import com.example.entity.Post;
 import com.example.result.PageResult;
 import com.example.result.Result;
+import com.example.vo.PostVO;
 
 public interface PostService {
 
@@ -23,5 +24,7 @@ public interface PostService {
     Post userPost(PostDTO postDTO);
 
     long getCategoryIdByName(String categoryName);
+
+    PostVO getPostById(Long id);
 
 }

@@ -91,6 +91,15 @@ public class PostServiceImpl implements PostService {
 
     }
 
+    /**
+     * 根据id获取帖子
+     * @param id
+     * @return
+     */
+    @Override
+    public PostVO getPostById(Long id) {
+        return postMapper.getPostById(id);
+    }
 
     @Override
     public long getCategoryIdByName(String categoryName) {

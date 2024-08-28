@@ -36,6 +36,13 @@ public class PostController {
         return Result.success();
     }
 
+    @GetMapping("/getPostById")
+    @ApiOperation("根据id获取帖子")
+    public Result getPostById(@RequestParam Long id){
+        log.info("根据id获取帖子:{}",id);
+        return Result.success(postService.getPostById(id));
+    }
+
     @GetMapping("/postPage")
     @ApiOperation("post分页查询")
     public Result<PageResult> postPage(

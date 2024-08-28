@@ -31,4 +31,7 @@
     <select id="getAuthorIdByPostId" resultType="java.lang.Long">
         select author_id from post where id = #{postId}
     </select>
+    <select id="getPostById" resultType="com.example.vo.PostVO">
+        select * from post where id = #{id}
+    </select>
 </mapper>
