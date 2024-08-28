@@ -83,8 +83,10 @@ public class UserServiceImpl implements UserService {
             String subject = "FEDA注册邮箱验证";
             messageHelper.setSubject(subject);
             String code = UUID.randomUUID().toString().substring(0,6);//生成6位验证码
+            //String content = "用户:  " + user.getUsername() +"Id:  " + user.getId() + "  邮箱激活验证码如下，30分钟有效:" + code +
+            //"<br>或点击以下链接进行激活:<a href=\"http://localhost:8080/api/user/activate?code=" + code + "&Id=" + user.getId() + "\">激活链接</a>";
             String content = "用户:  " + user.getUsername() +"Id:  " + user.getId() + "  邮箱激活验证码如下，30分钟有效:" + code +
-            "<br>或点击以下链接进行激活:<a href=\"http://localhost:8080/api/user/activate?code=" + code + "&Id=" + user.getId() + "\">激活链接</a>";
+            "<br>或点击以下链接进行激活:<a href=\"http://192.144.219.102:80/api/user/activate?code=" + code + "&Id=" + user.getId() + "\">激活链接</a>";
             messageHelper.setText(content, true);
             mailSender.send(message);
             //将验证码存入redis
