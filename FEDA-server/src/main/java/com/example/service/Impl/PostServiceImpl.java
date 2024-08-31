@@ -76,7 +76,7 @@ public class PostServiceImpl implements PostService {
             throw new ContentIsEmptyException(MessageConstant.CONTENT_EMPTY);
         }
 
-        InfoIsValidUtil.isValidTitle(postDTO.getTitle());
+        InfoIsValidUtil.isValidTitleOrKeywords(postDTO.getTitle());
         Post post = new Post();
         BeanUtils.copyProperties(postDTO,post);
         //post.setAuthorId(postDTO.getAuthorId());

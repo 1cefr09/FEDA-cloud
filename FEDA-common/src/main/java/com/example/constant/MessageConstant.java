@@ -18,6 +18,8 @@ public class MessageConstant {
 
     public static final String CONTENT_EMPTY = "内容为空";
 
+    public static final String SEARCG_EMPTY = "搜索结果为空";
+
     public static final String MESSAGE_INVALID = "信息不合法";
 
     public static final String TYPE_NOT_SAME = "操作类型不一致";

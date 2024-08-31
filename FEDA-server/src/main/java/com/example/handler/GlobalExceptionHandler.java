@@ -86,7 +86,12 @@ public class GlobalExceptionHandler {
         Result result = Result.error(message);
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
-
+    @ExceptionHandler(MessageInvalidException.class)//处理信息错误异常
+    public ResponseEntity<Result> handleMessageInvalidException(MessageInvalidException ex){
+        String message = ex.getMessage();
+        Result result = Result.error(message);
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(BaseException.class)//处理其它异常
     public ResponseEntity<Result> handleBaseException(BaseException ex){
         String message = ex.getMessage();

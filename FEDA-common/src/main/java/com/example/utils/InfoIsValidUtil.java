@@ -36,7 +36,7 @@ public class InfoIsValidUtil {
      * 标题校验
      * @param title
      */
-    public static void isValidTitle(String title){
+    public static void isValidTitleOrKeywords(String title){
         boolean validLength = title.length()<=30;
         boolean onlyWhiteSpace = title.trim().isEmpty();
         if (!(validLength) || onlyWhiteSpace){
