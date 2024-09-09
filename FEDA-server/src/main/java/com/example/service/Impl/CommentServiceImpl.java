@@ -20,29 +20,34 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Async
 public class CommentServiceImpl implements CommentService {
+//这是一种线程池的使用方法，使用@Async注解，另一种是手动配置线程池，参考PostServiceImpl
+
+    private final CommentMapper commentMapper;
+    private final PostMapper postMapper;
+    private final UserMapper userMapper;
+    private final StringRedisTemplate redisTemplate;
+    private final RedissonClient redissonClient;
 
     @Autowired
-    private CommentMapper commentMapper;
+    public CommentServiceImpl(CommentMapper commentMapper, PostMapper postMapper, UserMapper userMapper, StringRedisTemplate redisTemplate, RedissonClient redissonClient) {
+        this.commentMapper = commentMapper;
+        this.postMapper = postMapper;
+        this.userMapper = userMapper;
+        this.redisTemplate = redisTemplate;
+        this.redissonClient = redissonClient;
+    }
 
-    @Autowired
-    private PostMapper postMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-
-    @Autowired
-    private RedissonClient redissonClient;
     /**
      * 用户回帖
      * @param commentDTO
@@ -50,6 +55,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Transactional
     @Override
+    @Async("taskExecutor")
     public Comment userComment(CommentDTO commentDTO){
         System.out.println("回帖传入Service层的DTO" + commentDTO);
         //数据验证

@@ -25,18 +25,24 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
+@Slf4j
 public class PostServiceImpl implements PostService {
+//这是一种线程池的使用方法，，另一种是直接使用@Async注解，在commentServiceImpl中有使用
+    private final PostMapper postMapper;
+    private final UserMapper userMapper;
+    private final CategoryMapper categoryMapper;
+    private final ThreadPoolExecutor taskExecutor;  // 注入线程池
 
     @Autowired
-    private PostMapper postMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private CategoryMapper categoryMapper;
+    public PostServiceImpl(PostMapper postMapper, UserMapper userMapper, CategoryMapper categoryMapper, ThreadPoolExecutor taskExecutor) {
+        this.postMapper = postMapper;
+        this.userMapper = userMapper;
+        this.categoryMapper = categoryMapper;
+        this.taskExecutor = taskExecutor;
+    }
 
     /**
      * post分页查询
@@ -84,7 +90,15 @@ public class PostServiceImpl implements PostService {
         post.setAuthorName(authorName);
 //        System.out.println("发帖：" + post);
         // 保存实体到数据库
-        postMapper.insert(post);
+//        postMapper.insert(post);
+        taskExecutor.submit(() -> {
+            try {
+                postMapper.insert(post);
+//                log.info("Post saved asynchronously: {}", post);
+            } catch (Exception e) {
+                log.error("Error saving post asynchronously", e);
+            }
+        });
 
         // 返回保存后的实体
         return post;
