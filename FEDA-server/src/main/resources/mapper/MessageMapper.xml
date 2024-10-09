@@ -7,5 +7,12 @@
         insert into message (sender_id, sender_name, receiver_id, receiver_name, content, have_read, create_time)
         values (#{senderId}, #{senderName}, #{receiverId}, #{receiverName}, #{content}, #{haveRead}, now())
     </insert>
+    <update id="updateUsername">
+        update message
+        set
+            sender_name = CASE WHEN sender_id = #{Id} THEN #{username} ELSE sender_name END,
+            receiver_name = CASE WHEN receiver_id = #{Id} THEN #{username} ELSE receiver_name END
+        where sender_id = #{Id} OR receiver_id = #{Id}
+    </update>
 
 </mapper>

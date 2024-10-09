@@ -7,6 +7,7 @@ import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
 import com.example.exception.*;
 import com.example.mapper.CommentMapper;
+import com.example.mapper.MessageMapper;
 import com.example.mapper.PostMapper;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
@@ -40,6 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -174,6 +178,7 @@ public class UserServiceImpl implements UserService {
                     if (!user.getUsername().equals(userDTO.getUsername())){
                         postMapper.updateUsername(user.getId(),userDTO.getUsername());
                         commentMapper.updateUsername(user.getId(),userDTO.getUsername());
+                        messageMapper.updateUsername(user.getId(),userDTO.getUsername());
                     }
                     user.setUsername(userDTO.getUsername());
                 }else {
