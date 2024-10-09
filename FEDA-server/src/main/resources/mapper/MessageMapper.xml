@@ -14,5 +14,11 @@
             receiver_name = CASE WHEN receiver_id = #{Id} THEN #{username} ELSE receiver_name END
         where sender_id = #{Id} OR receiver_id = #{Id}
     </update>
+    <select id="getMessage" resultType="com.example.vo.MessageVO">
+        select * from message
+        where (sender_id = #{senderId} and receiver_id = #{receiverId})
+           or (sender_id = #{receiverId} and receiver_id = #{senderId})
+        order by create_time desc
+    </select>
 
 </mapper>

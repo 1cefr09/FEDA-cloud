@@ -20,7 +20,7 @@
     </update>
 
     <select id="commentPageQuery" parameterType="com.example.dto.CommentPageQueryDTO" resultType="com.example.vo.CommentVO">
-        SELECT * FROM comment where post_id = #{postId}
+        SELECT * FROM comment where post_id = #{postId} and is_banned = false ORDER BY create_time DESC
     </select>
     <select id="getAuthorIdByCommentId" resultType="java.lang.Long">
         select author_id from comment where id = #{commentId}

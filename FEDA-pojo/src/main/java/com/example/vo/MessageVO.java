@@ -17,5 +17,5 @@ public class MessageVO implements Serializable {
 
     private String content;
 
-    private LocalDateTime updateTime;
+    private LocalDateTime createTime;
 }

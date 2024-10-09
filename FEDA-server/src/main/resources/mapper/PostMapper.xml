@@ -26,6 +26,7 @@
         SELECT *
         FROM post
         WHERE category_id = #{categoryId} and is_banned = false
+        ORDER BY create_time DESC
     </select>
 
     <select id="getAuthorIdByPostId" resultType="java.lang.Long">
