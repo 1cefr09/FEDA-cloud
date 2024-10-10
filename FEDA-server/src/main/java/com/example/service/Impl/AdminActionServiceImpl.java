@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -85,8 +86,12 @@ public class AdminActionServiceImpl implements AdminActionService {
         Long adminId = BaseContext.getCurrentId();
 
         boolean userIsBanned = userMapper.getIsBanned(adminActionDTO.getTargetId());
-        if (!userIsBanned){
+        if (!userIsBanned){//如果用户当前没有被禁用，则应该禁用
             userMapper.updateUserBanned(adminActionDTO.getTargetId(),true);
+            if(!"Permanently".equals(adminActionDTO.getBanTime())){//如果不是永久封禁
+                Date unbanTime = getBanTime(adminActionDTO.getBanTime());
+                userMapper.updateUserUnbanTime(adminActionDTO.getTargetId(),unbanTime);
+            }
         }else {
             userMapper.updateUserBanned(adminActionDTO.getTargetId(),false);
         }
@@ -96,6 +101,25 @@ public class AdminActionServiceImpl implements AdminActionService {
         adminAction.setAdminId(adminId);
         adminActionMapper.insert(adminAction);
 
+    }
+
+    private Date getBanTime(String banTime) {
+        long duration = 0;
+        switch (banTime) {
+            case "Day":
+                duration = 24 * 60 * 60 * 1000L;
+                break;
+            case "Week":
+                duration = 7 * 24 * 60 * 60 * 1000L;
+                break;
+            case "Month":
+                duration = 30 * 24 * 60 * 60 * 1000L; // 这里假设一个月为30天
+                break;
+            case "Year":
+                duration = 365 * 24 * 60 * 60 * 1000L; // 这里假设一年为365天
+                break;
+        }
+        return new Date(System.currentTimeMillis() + duration);
     }
 
     @Override

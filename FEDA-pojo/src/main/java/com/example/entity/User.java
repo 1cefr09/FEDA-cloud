@@ -22,4 +22,7 @@ public class User {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+
+    private LocalDateTime unbanTime = null;
+
 }

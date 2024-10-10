@@ -44,6 +44,10 @@ spring:
     port: ${example.mail.port}
     username: ${example.mail.username}
     password: ${example.mail.password}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 #  elasticsearch:
 #    uris: ${example.elasticsearch.uris}

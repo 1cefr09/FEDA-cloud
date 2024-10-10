@@ -22,4 +22,6 @@ public interface UserService {
 
     UserVO updateUser(long id ,UserDTO userDTO);
 
+    void unBanUsers();
+
 }

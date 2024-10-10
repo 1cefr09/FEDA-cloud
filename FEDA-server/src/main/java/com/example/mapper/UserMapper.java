@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Date;
+
 @Mapper
 public interface UserMapper {
 
@@ -57,4 +59,9 @@ public interface UserMapper {
     void updateUserRole(@Param("targetId") long targetId,@Param("userRole") String userRole);
 
     void activateUser(@Param("id") Long id);
+
+    void updateUserUnbanTime(@Param("targetId") long targetId, @Param("unbanTime") Date unbanTime);
+
+    void unBanUsers(@Param("currentTime") Date currentTime);
+
 }

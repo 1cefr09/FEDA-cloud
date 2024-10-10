@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -214,6 +215,13 @@ public class UserServiceImpl implements UserService {
                 .isBanned(user.isBanned())
                 .build();
 
+    }
+
+    @Override
+    @Transactional
+    public void unBanUsers() {
+        Date now = new Date();
+        userMapper.unBanUsers(now);
     }
 
 

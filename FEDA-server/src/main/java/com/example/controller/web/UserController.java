@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -111,6 +112,7 @@ public class UserController {
                 .email(user.getEmail())
                 .isBanned(user.isBanned())
                 .isActivated(user.isActivated())
+                .unbanTime(user.getUnbanTime())
                 .build();
         return Result.success(userVO);
     }
@@ -147,4 +149,13 @@ public class UserController {
         UserVO userVO = userService.updateUser(userId,userDTO);
         return Result.success(userVO);
     }
+
+//    @PostMapping("/uploadProfile")
+//    @ApiOperation("上传头像")
+//    public Result uploadProfile(@RequestParam MultipartFile profile){
+//        Long userId = BaseContext.getCurrentId();
+//        log.info("上传头像，userId:{}",userId);
+//        userService.uploadProfile(userId,profile);
+//        return Result.success();
+//    }
 }

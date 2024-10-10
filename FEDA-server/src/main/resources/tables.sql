@@ -11,7 +11,8 @@ CREATE TABLE user (
     is_banned BOOLEAN NOT NULL DEFAULT TRUE,
     is_activated BOOLEAN NOT NULL DEFAULT FALSE,
     create_time DATETIME,
-    update_time DATETIME
+    update_time DATETIME,
+    unban_time DATETIME
 );
 
 INSERT INTO user (username, password, role, is_banned, is_activated, create_time, update_time)

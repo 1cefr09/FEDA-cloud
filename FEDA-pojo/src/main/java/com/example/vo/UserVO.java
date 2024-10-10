@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 未完成
@@ -24,5 +25,7 @@ public class UserVO implements Serializable {
     private String email;
 
     private boolean isBanned;
+
+    private LocalDateTime unbanTime = null;
 
 }
