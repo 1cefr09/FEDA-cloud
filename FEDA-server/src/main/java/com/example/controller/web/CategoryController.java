@@ -1,6 +1,5 @@
 package com.example.controller.web;
 
-
 import com.example.dto.CategoryListQueryDTO;
 import com.example.dto.PostPageQueryDTO;
 import com.example.result.PageResult;
@@ -17,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller for handling category-related actions.
+ * 板块相关操作控制器
+ */
 @RestController
 @RequestMapping("/api/category")
 @Slf4j
@@ -26,17 +29,17 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
+    /**
+     * Retrieves the list of categories.
+     * 获取板块列表
+     *
+     * @return the result containing the list of categories 包含板块列表的结果
+     */
     @GetMapping("/categoryList")
     @ApiOperation("板块列表")
     public Result<List> categoryList() {
-
-        // 创建 DTO 对象
-//        CategoryListQueryDTO categoryListQueryDTO = new CategoryListQueryDTO();
-//        categoryListQueryDTO.setPage(page);
-//        categoryListQueryDTO.setPageSize(pageSize);
         log.info("查询板块列表");
         List categoryListResult = categoryService.categoryListQuery();
         return Result.success(categoryListResult);
     }
-
 }

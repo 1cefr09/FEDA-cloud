@@ -19,13 +19,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 用户
+ * Controller for handling user-related actions.
+ * 用户相关操作控制器
  */
 @RestController
 @RequestMapping("/api/user")
@@ -42,32 +42,39 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * Registers a new user.
+     * 用户注册
+     *
+     * @param userDTO the user data transfer object 用户数据传输对象
+     * @return the result of the operation 操作结果
+     */
     @PostMapping("/register")
     @ApiOperation(value = "用户注册")
     public Result UserRegister(@RequestBody UserDTO userDTO){
-
         log.info("用户注册{}", userDTO);
         userService.UserRegister(userDTO);
         return Result.success();
-
     }
 
+    /**
+     * Logs in a user.
+     * 用户登录
+     *
+     * @param userLoginDTO the user login data transfer object 用户登录数据传输对象
+     * @return the result containing the user login view object 包含用户登录视图对象的结果
+     */
     @PostMapping("/login")
     @ApiOperation(value = "用户登录接口")
     public Result<UserLoginVO> UserLogin(@RequestBody UserLoginDTO userLoginDTO) {
         log.info("用户登录：{}", userLoginDTO);
-
         User user = userService.UserLogin(userLoginDTO);
-//        log.info("登录成功：{}", user);
-        //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.USER_ID, user.getId());
-
         String token = JwtUtil.createJWT(
                 jwtProperties.getAdminSecretKey(),
                 jwtProperties.getAdminTtl(),
                 claims);
-//        log.info("生成的token：{}", token);
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
                 .userName(user.getUsername())
@@ -75,10 +82,15 @@ public class UserController {
                 .isActivated(userMapper.getIsActivated(user.getId()))
                 .token(token)
                 .build();
-
         return Result.success(userLoginVO);
     }
 
+    /**
+     * Sends an activation email.
+     * 发送激活邮件
+     *
+     * @return the result of the operation 操作结果
+     */
     @GetMapping("/sendActivate")
     @ApiOperation(value = "发送邮件激活地址")
     public Result sendActivateEmail() {
@@ -87,6 +99,14 @@ public class UserController {
         return Result.success(MessageConstant.MAIL_SEND_SUCCESS);
     }
 
+    /**
+     * Activates a user.
+     * 用户激活
+     *
+     * @param code the activation code 激活码
+     * @param Id the user ID 用户ID
+     * @return the result of the operation 操作结果
+     */
     @GetMapping("/activate")
     @ApiOperation(value = "用户激活")
     public Result activateUser(@RequestParam String code, @RequestParam(required = false) Long Id) {
@@ -94,11 +114,16 @@ public class UserController {
         if (Id == null){
             Id = BaseContext.getCurrentId();
         }
-//        Long Id = BaseContext.getCurrentId();//不用jwt获取了，直接传入
         userService.activateUser(Id, code);
         return Result.success(MessageConstant.ACTIVATE_SUCCESS);
     }
 
+    /**
+     * Retrieves the current user's information.
+     * 获取当前用户信息
+     *
+     * @return the result containing the user view object 包含用��视图对象的结果
+     */
     @GetMapping("/getSelfInfo")
     @ApiOperation("获取本用户信息")
     public Result<UserVO> getSelfInfo(){
@@ -117,6 +142,14 @@ public class UserController {
         return Result.success(userVO);
     }
 
+    /**
+     * Retrieves information of another user.
+     * 获取其他用户信息
+     *
+     * @param userId the user ID 用户ID
+     * @param username the username 用户名
+     * @return the result containing the user view object 包含用户视图对象的结果
+     */
     @GetMapping("/getUserInfo")
     @ApiOperation("获取其它用户信息")
     public Result<UserVO> getUserInfo(
@@ -141,6 +174,13 @@ public class UserController {
         return Result.success(userVO);
     }
 
+    /**
+     * Updates the current user's information.
+     * 更新当前用户信息
+     *
+     * @param userDTO the user data transfer object 用户数据传输对象
+     * @return the result containing the updated user view object 包含更新后用户视图对象的结果
+     */
     @PostMapping("/updateUser")
     @ApiOperation("更新用户信息")
     public Result<UserVO> updateUser(@RequestBody UserDTO userDTO){
@@ -149,13 +189,4 @@ public class UserController {
         UserVO userVO = userService.updateUser(userId,userDTO);
         return Result.success(userVO);
     }
-
-//    @PostMapping("/uploadProfile")
-//    @ApiOperation("上传头像")
-//    public Result uploadProfile(@RequestParam MultipartFile profile){
-//        Long userId = BaseContext.getCurrentId();
-//        log.info("上传头像，userId:{}",userId);
-//        userService.uploadProfile(userId,profile);
-//        return Result.success();
-//    }
 }
