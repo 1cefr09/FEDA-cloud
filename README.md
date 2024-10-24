@@ -53,11 +53,15 @@ The redis section is for Redis configuration.
 
 The mail section is for email configuration, which is used later for the account activation feature. If you do not wish to enable this feature, you can skip this configuration.
 
+Run `FEDA-server/src/main/resources/tables`. sql to create databases and tables
+
 datasource 部分用于 MySQL 数据库配置。
 
 redis 部分用于 Redis 配置。
 
 mail 部分用于邮箱配置，这在后续的账号激活功能中会用到。如果您不希望启用此功能，可以跳过该配置。
+
+运行`FEDA-server/src/main/resources/tables.sql`以创建数据库和表
 
 ## Usage Guide
 
