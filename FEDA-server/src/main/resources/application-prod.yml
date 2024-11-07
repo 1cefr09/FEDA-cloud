@@ -1,0 +1,16 @@
+example:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: mysql
+    port: 3306
+    database: feda
+    username: root
+    password: Aa123456!
+  redis:
+    host: redis
+    port: 6379
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 1009216181@qq.com
+    password: hiuijfuvcqegbbef
