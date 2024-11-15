@@ -2,6 +2,17 @@
 <project version="4">
   <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="lab">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/JavaProjects/FEDA-cloud/FEDA-server" local="$PROJECT_DIR$/FEDA-server" web="/" />
+            <mapping deploy="/JavaProjects/FEDA-cloud" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/JavaProjects/FEDA-cloud/gateway" local="$PROJECT_DIR$/gateway" />
+            <mapping deploy="/JavaProjects/FEDA-cloud/FEDA-common" local="$PROJECT_DIR$/FEDA-common" />
+            <mapping deploy="/JavaProjects/FEDA-cloud/FEDA-pojo" local="$PROJECT_DIR$/FEDA-pojo" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="private">
         <serverdata>
           <mappings>
