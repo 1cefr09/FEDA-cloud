@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.UserMapper">
+    <insert id="insert">
+        insert into user (username, password, email,role, is_banned, is_activated, create_time, update_time)
+        values (#{username}, #{password}, #{email},#{role}, #{isBanned}, #{isActivated}, now(), now())
+
+    </insert>
+    <update id="update">
+        update user
+        set username = #{username},
+        password = #{password},
+        email = #{email},
+        update_time = now()
+        where id = #{id}
+    </update>
+
+    <select id="getByUsername" parameterType="string" resultType="com.example.entity.User">
+        select * from user where username = #{username}
+    </select>
+
+    <select id="getUsernameById" parameterType="long" resultType="string">
+        select username from user where id = #{id}
+    </select>
+
+    <select id="getUserIdByName" parameterType="string" resultType="long">
+        select id from user where username = #{username}
+    </select>
+
+    <select id="getIsBanned" parameterType="long" resultType="boolean">
+        select is_banned from user where id = #{id}
+    </select>
+
+    <select id="getIsActivated" parameterType="long" resultType="boolean">
+        select is_activated from user where id = #{id}
+    </select>
+
+    <update id="updateUserBanned">
+        update user set is_banned = #{userIsBanned} where id = #{targetId}
+    </update>
+
+    <select id="getById" resultType="com.example.entity.User">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="getUserRoleById" parameterType="long" resultType="string">
+        select role from user where id = #{id}
+    </select>
+
+    <update id="updateUserRole">
+        update user set role = #{userRole} where id = #{targetId}
+    </update>
+    <update id="activateUser">
+        update user set
+                    is_banned = false,
+                    is_activated = true,
+                    update_time=now()
+                    where id = #{id}
+    </update>
+    <update id="updateUserUnbanTime">
+        UPDATE user
+        SET unban_time = #{unbanTime}
+        WHERE id = #{targetId}
+    </update>
+
+    <update id="unBanUsers">
+        UPDATE user
+        SET is_banned = FALSE, unban_time = NULL
+        WHERE is_banned = TRUE AND unban_time IS NOT NULL AND unban_time &lt;= #{currentTime}
+    </update>
+</mapper>

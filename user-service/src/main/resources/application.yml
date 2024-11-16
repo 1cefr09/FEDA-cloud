@@ -1,12 +1,11 @@
 server:
-  port: 8080
+  port: 8180
   address: 0.0.0.0
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   main:
     allow-circular-references: true
-    web-application-type: reactive
   datasource:
     druid:
       #数据源配置
@@ -45,22 +44,11 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   application:
-    name: gateway
+    name: user-service
   cloud:
     nacos:
       discovery:
         server-addr: ${example.nacos.server-addr}
-    gateway:
-      routes:
-        - id: user
-          uri: lb://user-service
-          predicates:
-              - Path=/api/user/**
-        - id: post
-          uri: lb://post-service
-          predicates:
-                - Path=/api/post/**
-
 
 mybatis:
   #mapper配置文件
@@ -86,7 +74,8 @@ example:
     admin-ttl: 7200000000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
-  auth:
-    excludePaths:
-      - /api/user/login
-      - /api/user/register
+
+#management:
+#  health:
+#    elasticsearch:
+#      enabled: false
