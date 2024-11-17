@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.PostMapper">
+    <insert id="insert">
+        insert into post (title, content, category_id,author_id, author_name,is_banned,create_time, update_time)
+        values (#{title}, #{content}, #{categoryId},#{authorId},#{authorName},#{isBanned}, now(), now())
+
+    </insert>
+    <update id="update">
+        update post set update_time = now() where id = #{id}
+    </update>
+    <update id="updateUsername">
+        update post set author_name = #{username} where author_id = #{Id}
+    </update>
+
+    <select id="getIsBanned" parameterType="long" resultType="boolean">
+        select is_banned from post where id = #{id}
+    </select>
+
+    <update id="updatePostBanned">
+        update post set is_banned = #{postIsBanned} where id = #{targetId}
+    </update>
+
+    <select id="postPageQuery" parameterType="com.example.dto.PostPageQueryDTO" resultType="com.example.vo.PostVO">
+        SELECT *
+        FROM post
+        WHERE category_id = #{categoryId} and is_banned = false
+        ORDER BY update_time DESC
+    </select>
+
+    <select id="getAuthorIdByPostId" resultType="java.lang.Long">
+        select author_id from post where id = #{postId}
+    </select>
+    <select id="getPostById" resultType="com.example.vo.PostVO">
+        select * from post where id = #{id}
+    </select>
+</mapper>

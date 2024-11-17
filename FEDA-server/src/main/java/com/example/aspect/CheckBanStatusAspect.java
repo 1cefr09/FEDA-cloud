@@ -26,11 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 @Slf4j
 public class CheckBanStatusAspect {
-    @Autowired
 
-    private JwtProperties jwtProperties;
     @Autowired
-
     private UserMapper userMapper;
     @Autowired
     HttpServletRequest request;

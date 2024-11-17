@@ -15,13 +15,13 @@ public interface UserService {
     User getUserById(Long id);
 
     User getUserByUsername(String username);
-//
-//    void sendActivateEmail(Long id);
-//
-//    void activateUser(Long Id, String code);
-//
-//    UserVO updateUser(long id ,UserDTO userDTO);
-//
-//    void unBanUsers();
+
+    void sendActivateEmail(Long id);
+
+    void activateUser(Long Id, String code);
+
+    UserVO updateUser(long id ,UserDTO userDTO);
+
+    void unBanUsers();
 
 }

@@ -1,5 +1,5 @@
 server:
-  port: 8180
+  port: 8080
   address: 0.0.0.0
 spring:
   profiles:
@@ -43,13 +43,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-  mail:
-    host: ${example.mail.host:smtp.qq.com}
-    port: ${example.mail.port}
-    username: ${example.mail.username}
-    password: ${example.mail.password}
   application:
-    name: user-service
+    name: post-service
   cloud:
     nacos:
       discovery:

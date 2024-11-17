@@ -9,10 +9,5 @@ example:
   redis:
     host: localhost
     port: 6379
-  mail:
-    host: smtp.qq.com
-    port: 587
-    username: 1009216181@qq.com
-    password: hiuijfuvcqegbbef
   nacos:
     server-addr: 10.112.19.119:8848
