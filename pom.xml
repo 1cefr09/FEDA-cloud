@@ -20,6 +20,8 @@
         <module>user-service</module>
         <module>post-service</module>
         <module>category-service</module>
+        <module>comment-service</module>
+        <module>FEDA-api</module>
     </modules>
     <properties>
         <mybatis.spring>2.2.0</mybatis.spring>
@@ -49,6 +51,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -74,6 +78,7 @@
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
                 <version>${spring-cloud-alibaba.version}</version>
             </dependency>
+
 
             <dependency>
                 <groupId>org.springframework.cloud</groupId>

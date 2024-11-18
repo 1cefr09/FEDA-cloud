@@ -1,4 +1,6 @@
 package com.example.controller.web;
+import com.example.context.BaseContext;
+import com.example.dto.PostDTO;
 import com.example.result.Result;
 import com.example.service.PostService;
 import io.swagger.annotations.Api;
@@ -20,23 +22,23 @@ public class PostController {
     @Autowired
     PostService postService;
 
-//    /**
-//     * Allows a user to create a post.
-//     * 允许用户发帖
-//     *
-//     * @param postDTO the post data transfer object 帖子数据传输对象
-//     * @return the result of the operation 操作结果
-//     */
-//    @PostMapping("/userPost")
-//    @ApiOperation(value = "发帖接口")
+    /**
+     * Allows a user to create a post.
+     * 允许用户发帖
+     *
+     * @param postDTO the post data transfer object 帖子数据传输对象
+     * @return the result of the operation 操作结果
+     */
+    @PostMapping("/userPost")
+    @ApiOperation(value = "发帖接口")
 //    @CheckBanStatus //此处拦截检测是否被ban
-//    Result userPost(@RequestBody PostDTO postDTO) {
-//        long userId = BaseContext.getCurrentId();
-//        postDTO.setAuthorId(userId);
-//        log.info("发帖{}", postDTO);
-//        postService.userPost(postDTO);
-//        return Result.success();
-//    }
+    Result userPost(@RequestBody PostDTO postDTO) {
+        long userId = BaseContext.getCurrentId();
+        postDTO.setAuthorId(userId);
+        log.info("发帖{}", postDTO);
+        postService.userPost(postDTO);
+        return Result.success();
+    }
 
     /**
      * Retrieves a post by its ID.

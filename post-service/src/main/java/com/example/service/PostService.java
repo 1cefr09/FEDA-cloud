@@ -15,12 +15,12 @@ public interface PostService {
      */
     PageResult postPageQuery(PostPageQueryDTO postPageQueryDTO);
 
-//    /**
-//     * 用户发帖
-//     * @param postDTO
-//     * @return
-//     */
-//    Post userPost(PostDTO postDTO);
+    /**
+     * 用户发帖
+     * @param postDTO
+     * @return
+     */
+    Post userPost(PostDTO postDTO);
 
 //    long getCategoryIdByName(String categoryName);
 

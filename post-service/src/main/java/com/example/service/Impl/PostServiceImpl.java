@@ -1,5 +1,6 @@
 package com.example.service.Impl;
 
+import com.example.client.UserClient;
 import com.example.constant.MessageConstant;
 import com.example.dto.PostDTO;
 import com.example.dto.PostPageQueryDTO;
@@ -11,6 +12,7 @@ import com.example.result.PageResult;
 import com.example.service.PostService;
 import com.example.utils.InfoIsValidUtil;
 import com.example.vo.PostVO;
+import com.example.vo.UserVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -26,16 +28,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class PostServiceImpl implements PostService {
 //这是一种线程池的使用方法，，另一种是直接使用@Async注解，在commentServiceImpl中有使用
     private final PostMapper postMapper;
-//    private final UserMapper userMapper;
-//    private final CategoryMapper categoryMapper;
-//    private final ThreadPoolExecutor taskExecutor;  // 注入线程池
 
+    private final UserClient userClient;
     @Autowired
-    public PostServiceImpl(PostMapper postMapper) {
+    public PostServiceImpl(PostMapper postMapper, UserClient userClient) {
         this.postMapper = postMapper;
-//        this.userMapper = userMapper;
-//        this.categoryMapper = categoryMapper;
-//        this.taskExecutor = taskExecutor;
+        this.userClient = userClient;
     }
 
     /**
@@ -60,31 +58,34 @@ public class PostServiceImpl implements PostService {
     }
 
 
-//    /**
-//     * 用户发帖
-//     * @param postDTO
-//     * @return
-//     */
-//    @Override
-//    public Post userPost(PostDTO postDTO) {
-//        System.out.println("发帖传入Service层的DTO：" + postDTO);
-//        // 数据验证（例如，检查标题和内容是否为空）
-//        if (postDTO.getTitle() == null || postDTO.getTitle().isEmpty()) {
-//            throw new TitleIsEmptyException(MessageConstant.TITLE_EMPTY);
-//        }
-//        if (postDTO.getContent() == null || postDTO.getContent().isEmpty()) {
-//            throw new ContentIsEmptyException(MessageConstant.CONTENT_EMPTY);
-//        }
-//
-//        InfoIsValidUtil.isValidTitleOrKeywords(postDTO.getTitle());
-//        Post post = new Post();
-//        BeanUtils.copyProperties(postDTO,post);
-//        //post.setAuthorId(postDTO.getAuthorId());
+    /**
+     * 用户发帖
+     * @param postDTO
+     * @return
+     */
+    @Override
+    public Post userPost(PostDTO postDTO) {
+        System.out.println("发帖传入Service层的DTO：" + postDTO);
+        // 数据验证（例如，检查标题和内容是否为空）
+        if (postDTO.getTitle() == null || postDTO.getTitle().isEmpty()) {
+            throw new TitleIsEmptyException(MessageConstant.TITLE_EMPTY);
+        }
+        if (postDTO.getContent() == null || postDTO.getContent().isEmpty()) {
+            throw new ContentIsEmptyException(MessageConstant.CONTENT_EMPTY);
+        }
+
+        InfoIsValidUtil.isValidTitleOrKeywords(postDTO.getTitle());
+        Post post = new Post();
+        BeanUtils.copyProperties(postDTO,post);
+
+        UserVO userVO = userClient.getUserInfo(postDTO.getAuthorId(), null).getData();
 //        String authorName = userMapper.getUsernameById(post.getAuthorId());
-//        post.setAuthorName(authorName);
-////        System.out.println("发帖：" + post);
-//        // 保存实体到数据库
-////        postMapper.insert(post);
+        String authorName = userVO.getUsername();
+
+        post.setAuthorName(authorName);
+//        System.out.println("发帖：" + post);
+        // 保存实体到数据库
+        postMapper.insert(post);
 //        taskExecutor.submit(() -> {
 //            try {
 //                postMapper.insert(post);
@@ -93,11 +94,11 @@ public class PostServiceImpl implements PostService {
 //                log.error("Error saving post asynchronously", e);
 //            }
 //        });
-//
-//        // 返回保存后的实体
-//        return post;
-//
-//    }
+
+        // 返回保存后的实体
+        return post;
+
+    }
 
     /**
      * 根据id获取帖子
