@@ -2,6 +2,7 @@ package com.example.controller.web;
 
 import com.example.result.Result;
 import com.example.service.CategoryService;
+import com.example.vo.CategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -38,4 +39,20 @@ public class CategoryController {
         List categoryListResult = categoryService.categoryListQuery();
         return Result.success(categoryListResult);
     }
+
+
+    @GetMapping("/getCategoryById")
+    @ApiOperation("根据id获取板块")
+    public Result<CategoryVO> getCategoryById(Long id){
+        log.info("根据id获取板块:{}",id);
+        return Result.success(categoryService.getCategoryById(id));
+    }
+
+    @GetMapping("/getCategoryByName")
+    @ApiOperation("根据name获取板块")
+    public Result<CategoryVO> getCategoryByName(String categoryName){
+        log.info("根据name获取板块:{}",categoryName);
+        return Result.success(categoryService.getCategoryByName(categoryName));
+    }
+
 }

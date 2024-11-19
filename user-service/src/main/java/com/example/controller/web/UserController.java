@@ -174,19 +174,19 @@ public class UserController {
         return Result.success(userVO);
     }
 
-//    /**
-//     * Updates the current user's information.
-//     * 更新当前用户信息
-//     *
-//     * @param userDTO the user data transfer object 用户数据传输对象
-//     * @return the result containing the updated user view object 包含更新后用户视图对象的结果
-//     */
-//    @PostMapping("/updateUser")
-//    @ApiOperation("更新用户信息")
-//    public Result<UserVO> updateUser(@RequestBody UserDTO userDTO){
-//        Long userId = BaseContext.getCurrentId();
-//        log.info("更新用户信息，userId:{},userDTO:{}",userId,userDTO);
-//        UserVO userVO = userService.updateUser(userId,userDTO);
-//        return Result.success(userVO);
-//    }
+    /**
+     * Updates the current user's information.
+     * 更新当前用户信息
+     *
+     * @param userDTO the user data transfer object 用户数据传输对象
+     * @return the result containing the updated user view object 包含更新后用户视图对象的结果
+     */
+    @PostMapping("/updateUser")
+    @ApiOperation("更新用户信息")
+    public Result<UserVO> updateUser(@RequestBody UserDTO userDTO){
+        Long userId = BaseContext.getCurrentId();
+        log.info("更新用户信息，userId:{},userDTO:{}",userId,userDTO);
+        UserVO userVO = userService.updateUser(userId,userDTO);
+        return Result.success(userVO);
+    }
 }

@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
                         throw new AlreadyExistException(MessageConstant.USERNAME_EXIST);
                     }
                     InfoIsValidUtil.isValidUsername(userDTO.getUsername());
-                    //TODO:更新其它表中的username
+                    //TODO:分布式事务
 //                    if (!user.getUsername().equals(userDTO.getUsername())){
 //                        postMapper.updateUsername(user.getId(),userDTO.getUsername());
 //                        commentMapper.updateUsername(user.getId(),userDTO.getUsername());

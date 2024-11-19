@@ -21,4 +21,8 @@ public interface CategoryMapper {
 
     void updateCategoryBanned(@Param("targetId") long targetId, @Param("categoryIsBanned") boolean categoryIsBanned);
 
+    CategoryVO getCategoryById(Long id);
+
+    CategoryVO getCategoryByName(String categoryName);
+
 }

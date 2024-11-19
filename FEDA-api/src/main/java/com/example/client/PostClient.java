@@ -1,11 +1,15 @@
 package com.example.client;
 
+import com.example.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient("post-service")
 public interface PostClient {
 
-    //TODO: 写openfeign的RPC接口
+    @PostMapping("/api/post/update")
+    Result update( @RequestParam Long id);
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.service.Impl;
 
+import com.example.client.CategoryClient;
 import com.example.client.UserClient;
 import com.example.constant.MessageConstant;
 import com.example.dto.PostDTO;
@@ -11,6 +12,7 @@ import com.example.mapper.PostMapper;
 import com.example.result.PageResult;
 import com.example.service.PostService;
 import com.example.utils.InfoIsValidUtil;
+import com.example.vo.CategoryVO;
 import com.example.vo.PostVO;
 import com.example.vo.UserVO;
 import com.github.pagehelper.Page;
@@ -30,10 +32,13 @@ public class PostServiceImpl implements PostService {
     private final PostMapper postMapper;
 
     private final UserClient userClient;
+    private final CategoryClient categoryClient;
+
     @Autowired
-    public PostServiceImpl(PostMapper postMapper, UserClient userClient) {
+    public PostServiceImpl(PostMapper postMapper, UserClient userClient, CategoryClient categoryClient) {
         this.postMapper = postMapper;
         this.userClient = userClient;
+        this.categoryClient = categoryClient;
     }
 
     /**
@@ -110,8 +115,15 @@ public class PostServiceImpl implements PostService {
         return postMapper.getPostById(id);
     }
 
-//    @Override
-//    public long getCategoryIdByName(String categoryName) {
-//        return categoryMapper.getCategoryIdByName(categoryName);
-//    }
+    @Override
+    public long getCategoryIdByName(String categoryName) {
+        CategoryVO categoryVO = categoryClient.getCategoryByName(categoryName).getData();
+        return categoryVO.getId();
+    }
+
+    @Override
+    public Void update(long Id) {
+        postMapper.update(Id);
+        return null;
+    }
 }

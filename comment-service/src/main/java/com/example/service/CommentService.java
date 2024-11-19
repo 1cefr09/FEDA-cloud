@@ -7,12 +7,12 @@ import com.example.entity.Comment;
 import com.example.result.PageResult;
 
 public interface CommentService {
-//    /**
-//     * 用户回帖
-//     * @param commentDTO
-//     * @return
-//     */
-//    Comment userComment(CommentDTO commentDTO);
+    /**
+     * 用户回帖
+     * @param commentDTO
+     * @return
+     */
+    Comment userComment(CommentDTO commentDTO);
 
     /**
      * comment回帖查询

@@ -1,6 +1,8 @@
 package com.example.controller.web;
 import com.example.context.BaseContext;
 import com.example.dto.PostDTO;
+import com.example.dto.PostPageQueryDTO;
+import com.example.result.PageResult;
 import com.example.result.Result;
 import com.example.service.PostService;
 import io.swagger.annotations.Api;
@@ -54,40 +56,48 @@ public class PostController {
         return Result.success(postService.getPostById(id));
     }
 
-//    /**
-//     * Retrieves a paginated list of posts.
-//     * 获取帖子的分页列表
-//     *
-//     * @param page the page number 页码
-//     * @param pageSize the size of the page 页大小
-//     * @param categoryId the ID of the category 板块ID
-//     * @param categoryName the name of the category 板块名称
-//     * @return the result containing the paginated list of posts 包含分页帖子列表的结果
-//     */
-//    @GetMapping("/postPage")
-//    @ApiOperation("post分页查询")
-//    public Result<PageResult> postPage(
-//            @RequestParam int page,
-//            @RequestParam(required = false) Integer pageSize,
-//            @RequestParam(required = false) Long categoryId,
-//            @RequestParam(required = false) String categoryName) {
-//
-//        // 创建 DTO 对象
-//        PostPageQueryDTO postPageQueryDTO = new PostPageQueryDTO();
-//        postPageQueryDTO.setPage(page);
-//        if (pageSize != null) {
-//            postPageQueryDTO.setPageSize(pageSize);
-//        }
-//        if (categoryId != null) {
-//            postPageQueryDTO.setCategoryId(categoryId);
-//        } else if (categoryName != null) {
-//            postPageQueryDTO.setCategoryName(categoryName);
-//            postPageQueryDTO.setCategoryId(postService.getCategoryIdByName(categoryName));
-//        } else {
-//            postPageQueryDTO.setCategoryId(1L);
-//        }
-//        log.info("post分页查询，参数为：{}",postPageQueryDTO);
-//        PageResult postPageResult = postService.postPageQuery(postPageQueryDTO);
-//        return Result.success(postPageResult);
-//    }
+    /**
+     * Retrieves a paginated list of posts.
+     * 获取帖子的分页列表
+     *
+     * @param page the page number 页码
+     * @param pageSize the size of the page 页大小
+     * @param categoryId the ID of the category 板块ID
+     * @param categoryName the name of the category 板块名称
+     * @return the result containing the paginated list of posts 包含分页帖子列表的结果
+     */
+    @GetMapping("/postPage")
+    @ApiOperation("post分页查询")
+    public Result<PageResult> postPage(
+            @RequestParam int page,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String categoryName) {
+
+        // 创建 DTO 对象
+        PostPageQueryDTO postPageQueryDTO = new PostPageQueryDTO();
+        postPageQueryDTO.setPage(page);
+        if (pageSize != null) {
+            postPageQueryDTO.setPageSize(pageSize);
+        }
+        if (categoryId != null) {
+            postPageQueryDTO.setCategoryId(categoryId);
+        } else if (categoryName != null) {
+            postPageQueryDTO.setCategoryName(categoryName);
+            postPageQueryDTO.setCategoryId(postService.getCategoryIdByName(categoryName));
+        } else {
+            postPageQueryDTO.setCategoryId(1L);
+        }
+        log.info("post分页查询，参数为：{}",postPageQueryDTO);
+        PageResult postPageResult = postService.postPageQuery(postPageQueryDTO);
+        return Result.success(postPageResult);
+    }
+
+    @PostMapping("/update")
+    @ApiOperation("更新帖子")
+    public Result update(Long id){
+        log.info("更新帖子:{}",id);
+        postService.update(id);
+        return Result.success();
+    }
 }

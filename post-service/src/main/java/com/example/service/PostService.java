@@ -22,8 +22,10 @@ public interface PostService {
      */
     Post userPost(PostDTO postDTO);
 
-//    long getCategoryIdByName(String categoryName);
+    long getCategoryIdByName(String categoryName);
 
     PostVO getPostById(Long id);
+
+    Void update(long Id);
 
 }

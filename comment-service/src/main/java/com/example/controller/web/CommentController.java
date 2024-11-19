@@ -25,23 +25,23 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-//    /**
-//     * Allows a user to comment on a post.
-//     * 用户对帖子进行评论
-//     *
-//     * @param commentDTO the comment data transfer object 评论数据传输��象
-//     * @return the result of the operation 操作结果
-//     */
-//    @PostMapping("/userComment")
-//    @ApiOperation(value = "回帖接口")
+    /**
+     * Allows a user to comment on a post.
+     * 用户对帖子进行评论
+     *
+     * @param commentDTO the comment data transfer object 评论数据传输��象
+     * @return the result of the operation 操作结果
+     */
+    @PostMapping("/userComment")
+    @ApiOperation(value = "回帖接口")
 //    @CheckBanStatus
-//    public Result userComment(@RequestBody CommentDTO commentDTO) {
-//        long userId = BaseContext.getCurrentId();
-//        commentDTO.setAuthorId(userId);
-//        log.info("回帖{}", commentDTO);
-//        commentService.userComment(commentDTO);
-//        return Result.success();
-//    }
+    public Result userComment(@RequestBody CommentDTO commentDTO) {
+        long userId = BaseContext.getCurrentId();
+        commentDTO.setAuthorId(userId);
+        log.info("回帖{}", commentDTO);
+        commentService.userComment(commentDTO);
+        return Result.success();
+    }
 
     /**
      * Retrieves a paginated list of comments for a post.

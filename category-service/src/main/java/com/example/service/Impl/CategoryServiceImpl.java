@@ -38,4 +38,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categories;
     }
+
+    @Override
+    public CategoryVO getCategoryById(Long id) {
+        return categoryMapper.getCategoryById(id);
+    }
+
+    @Override
+    public CategoryVO getCategoryByName(String categoryName){
+        return categoryMapper.getCategoryByName(categoryName);
+    }
 }

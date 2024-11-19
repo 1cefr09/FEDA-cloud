@@ -19,4 +19,10 @@
     <select id="getIsBannedById" resultType="java.lang.Boolean">
         SELECT is_banned FROM category WHERE id = #{id}
     </select>
+    <select id="getCategoryById" resultType="com.example.vo.CategoryVO">
+        SELECT * FROM category WHERE id = #{id}
+    </select>
+    <select id="getCategoryByName" resultType="com.example.vo.CategoryVO">
+        SELECT * FROM category WHERE category_name = #{categoryName}
+    </select>
 </mapper>
