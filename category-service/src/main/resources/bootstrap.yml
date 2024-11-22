@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: category-service # 服务名称
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 10.112.19.119:8848
+      config:
+        file-extension: yml # 文件后缀名
+        shared-configs: # 共享配置
+          - dataId: shared_jdbc.yml
+            group: DEFAULT_GROUP
+            refresh: true
+          - dataId: shared_redis.yml
+            group: DEFAULT_GROUP
+            refresh: true
+          - dataId: shared_log.yml
+            group: DEFAULT_GROUP
+            refresh: true
