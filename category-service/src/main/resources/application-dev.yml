@@ -11,3 +11,5 @@ example:
     port: 6379
   nacos:
     server-addr: 10.112.19.119:8848
+  sentinel:
+    dashboard: localhost:8090

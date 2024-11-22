@@ -40,10 +40,6 @@ spring:
     port: ${example.redis.port}
     #    password: ${example.redis.password}
     #database: ${example.redis.database}
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
   application:
     name: gateway
   cloud:
@@ -68,6 +64,10 @@ spring:
           uri: lb://comment-service
           predicates:
               - Path=/api/comment/**
+    sentinel:
+      transport:
+        dashboard: ${example.sentinel.dashboard}
+      http-method-specify: true # 是否开启Sentinel对HTTP请求方法的支持
 
 
 mybatis:

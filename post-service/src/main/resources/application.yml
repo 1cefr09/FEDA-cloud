@@ -39,16 +39,16 @@ spring:
     port: ${example.redis.port}
     #    password: ${example.redis.password}
     #database: ${example.redis.database}
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
   application:
     name: post-service
   cloud:
     nacos:
       discovery:
         server-addr: ${example.nacos.server-addr}
+    sentinel:
+      transport:
+        dashboard: ${example.sentinel.dashboard}
+      http-method-specify: true # 是否开启Sentinel对HTTP请求方法的支持
 
 mybatis:
   #mapper配置文件
@@ -61,21 +61,7 @@ mybatis:
 logging:
   level:
     com:
-      sky:
+      example:
         mapper: debug
         service: info
         controller: info
-
-example:
-  jwt:
-    # 设置jwt签名加密时使用的秘钥
-    admin-secret-key: example
-    # 设置jwt过期时间
-    admin-ttl: 7200000000
-    # 设置前端传递过来的令牌名称
-    admin-token-name: token
-
-#management:
-#  health:
-#    elasticsearch:
-#      enabled: false
