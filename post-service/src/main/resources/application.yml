@@ -6,41 +6,40 @@ spring:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   main:
     allow-circular-references: true
-  datasource:
-    druid:
-      #数据源配置
-      driver-class-name: ${example.datasource.driver-class-name}
-      url: jdbc:mysql://${example.datasource.host}:${example.datasource.port}/${example.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: ${example.datasource.username}
-      password: ${example.datasource.password}
-      #连接池配置
-      initial-size: 1 # 初始化时建立物理连接的个数
-      min-idle: 1 # 最小连接池数量
-      max-active: 20 # 最大连接池数量
-      max-wait: 60000 # 获取连接时最大等待时间，单位毫秒
-      time-between-eviction-runs-millis: 60000 # 有两个含义：1) Destroy线程会检测连接的间隔时间 2) testWhileIdle的判断依据，详细看testWhileIdle属性的说明
-      min-evictable-idle-time-millis: 300000 # 空闲连接回收的间隔时间
-      validation-query: SELECT 1 FROM DUAL # 用来检测连接是否有效的SQL
-      test-while-idle: true # 空闲时测试 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
-      test-on-borrow: false # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
-      test-on-return: false # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
-      pool-prepared-statements: true # 是否缓存preparedStatement，也就是PSCache
-      max-pool-prepared-statement-per-connection-size: 5 # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。PSCache本身是一个占用内存的功能，设置过大可能会导致内存溢出
-      filters: stat,wall # 属性类型是字符串，通过别名的方式配置扩展插件，常用的插件有：监控统计用的filter:stat、日志用的filter:log4j、防御SQL注入的filter:wall
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录enabled=true
-      stat-view-servlet:
-        enabled: true
-        url-pattern: /druid/*
-        login-username: admin
-        login-password: admin
-        reset-enable: false
-  redis:
-    host: ${example.redis.host}
-    port: ${example.redis.port}
-    #    password: ${example.redis.password}
-    #database: ${example.redis.database}
-  application:
-    name: post-service
+#  datasource:
+#    druid:
+#      #数据源配置
+#      driver-class-name: ${example.datasource.driver-class-name}
+#      url: jdbc:mysql://${example.datasource.host}:${example.datasource.port}/${example.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+#      username: ${example.datasource.username}
+#      password: ${example.datasource.password}
+#      #连接池配置
+#      initial-size: 1 # 初始化时建立物理连接的个数
+#      min-idle: 1 # 最小连接池数量
+#      max-active: 20 # 最大连接池数量
+#      max-wait: 60000 # 获取连接时最大等待时间，单位毫秒
+#      time-between-eviction-runs-millis: 60000 # 有两个含义：1) Destroy线程会检测连接的间隔时间 2) testWhileIdle的判断依据，详细看testWhileIdle属性的说明
+#      min-evictable-idle-time-millis: 300000 # 空闲连接回收的间隔时间
+#      validation-query: SELECT 1 FROM DUAL # 用来检测连接是否有效的SQL
+#      test-while-idle: true # 空闲时测试 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+#      test-on-borrow: false # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+#      test-on-return: false # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+#      pool-prepared-statements: true # 是否缓存preparedStatement，也就是PSCache
+#      max-pool-prepared-statement-per-connection-size: 5 # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。PSCache本身是一个占用内存的功能，设置过大可能会导致内存溢出
+#      filters: stat,wall # 属性类型是字符串，通过别名的方式配置扩展插件，常用的插件有：监控统计用的filter:stat、日志用的filter:log4j、防御SQL注入的filter:wall
+#      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录enabled=true
+#      stat-view-servlet:
+#        enabled: true
+#        url-pattern: /druid/*
+#        login-username: admin
+#        login-password: admin
+#        reset-enable: false
+#  redis:
+#    host: ${example.redis.host}
+#    port: ${example.redis.port}
+#
+#  application:
+#    name: post-service
   cloud:
     nacos:
       discovery:
@@ -50,18 +49,18 @@ spring:
         dashboard: ${example.sentinel.dashboard}
       http-method-specify: true # 是否开启Sentinel对HTTP请求方法的支持
 
-mybatis:
-  #mapper配置文件
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.example.entity
-  configuration:
-    #开启驼峰命名
-    map-underscore-to-camel-case: true
-
-logging:
-  level:
-    com:
-      example:
-        mapper: debug
-        service: info
-        controller: info
+#mybatis:
+#  #mapper配置文件
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.example.entity
+#  configuration:
+#    #开启驼峰命名
+#    map-underscore-to-camel-case: true
+#
+#logging:
+#  level:
+#    com:
+#      example:
+#        mapper: debug
+#        service: info
+#        controller: info
