@@ -18,3 +18,6 @@ spring:
           - dataId: shared_log.yml
             group: DEFAULT_GROUP
             refresh: true
+          - data-id: shared_seata.yml
+            group: DEFAULT_GROUP
+            refresh: true

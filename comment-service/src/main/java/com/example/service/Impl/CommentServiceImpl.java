@@ -16,6 +16,7 @@ import com.example.vo.CommentVO;
 import com.example.vo.UserVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.startup.UserConfig;
 import org.redisson.api.RLock;
@@ -60,11 +61,11 @@ public class CommentServiceImpl implements CommentService {
      * @param commentDTO
      * @return
      */
-    @Transactional
+    @GlobalTransactional
     @Override
 //    @Async("taskExecutor")
     public Comment userComment(CommentDTO commentDTO){
-        //TODO:分布式事务
+
 //        System.out.println("回帖传入Service层的DTO" + commentDTO);
         //数据验证
         if (commentDTO.getContent() == null || commentDTO.getContent().isEmpty()){
