@@ -95,9 +95,19 @@ public class PostController {
 
     @PostMapping("/update")
     @ApiOperation("更新帖子")
-    public Result update(Long id){
+    public Result update(@RequestParam Long id){
         log.info("更新帖子:{}",id);
         postService.update(id);
         return Result.success();
     }
+
+    @PostMapping("/updateUsername")
+    @ApiOperation("更新用户名")
+    public Result updateUsername(@RequestParam Long id,@RequestParam String username){
+        postService.updateUsername(id,username);
+        return Result.success();
+    }
+
+
+
 }

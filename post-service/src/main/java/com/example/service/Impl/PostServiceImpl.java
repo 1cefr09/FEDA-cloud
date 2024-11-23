@@ -122,8 +122,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Void update(long Id) {
+    public void update(long Id) {
         postMapper.update(Id);
-        return null;
+    }
+
+    @Override
+    public void updateUsername(Long Id, String username) {
+        postMapper.updateUsername(Id, username);
     }
 }

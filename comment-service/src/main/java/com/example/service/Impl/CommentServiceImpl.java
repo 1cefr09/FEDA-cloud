@@ -145,5 +145,10 @@ public class CommentServiceImpl implements CommentService {
         return new PageResult(total,records);
     }
 
+    @Override
+    public void updateUsername(Long Id, String username){
+        commentMapper.updateUsername(Id,username);
+    }
+
 
 }

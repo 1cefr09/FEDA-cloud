@@ -20,4 +20,6 @@ public interface CommentService {
      * @return
      */
     PageResult commentPageQuery(CommentPageQueryDTO commentPageQueryDTO);
+
+    void updateUsername(Long Id, String username);
 }

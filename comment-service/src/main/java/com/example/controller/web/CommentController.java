@@ -70,4 +70,12 @@ public class CommentController {
         PageResult commentPageResult = commentService.commentPageQuery(commentPageQueryDTO);
         return Result.success(commentPageResult);
     }
+
+    @PostMapping("/updateUsername")
+    @ApiOperation("更新用户名")
+    public Result updateUsername(@RequestParam Long id,@RequestParam String username){
+        commentService.updateUsername(id,username);
+        return Result.success();
+    }
+
 }

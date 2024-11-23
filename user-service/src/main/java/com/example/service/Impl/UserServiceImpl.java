@@ -1,5 +1,7 @@
 package com.example.service.Impl;
 
+import com.example.client.CommentClient;
+import com.example.client.PostClient;
 import com.example.constant.MessageConstant;
 import com.example.dto.UserDTO;
 import com.example.dto.UserLoginDTO;
@@ -9,8 +11,10 @@ import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 import com.example.utils.InfoIsValidUtil;
 import com.example.vo.UserVO;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +45,12 @@ public class UserServiceImpl implements UserService {
 
     @Value("${spring.mail.username}")
     private String sendFrom;
+
+    @Autowired
+    PostClient postClient;
+
+    @Autowired
+    CommentClient commentClient;
 
     @Override
     public void UserRegister(UserDTO userDTO){
@@ -141,7 +151,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @GlobalTransactional
     /**
      * 用户更改信息时的更新
      */
@@ -162,12 +172,10 @@ public class UserServiceImpl implements UserService {
                         throw new AlreadyExistException(MessageConstant.USERNAME_EXIST);
                     }
                     InfoIsValidUtil.isValidUsername(userDTO.getUsername());
-                    //TODO:分布式事务
-//                    if (!user.getUsername().equals(userDTO.getUsername())){
-//                        postMapper.updateUsername(user.getId(),userDTO.getUsername());
-//                        commentMapper.updateUsername(user.getId(),userDTO.getUsername());
-//                        messageMapper.updateUsername(user.getId(),userDTO.getUsername());
-//                    }
+                    if (!user.getUsername().equals(userDTO.getUsername())){
+                        postClient.updateUsername(user.getId(),userDTO.getUsername());
+                        commentClient.updateUsername(user.getId(),userDTO.getUsername());
+                    }
                     user.setUsername(userDTO.getUsername());
                 }else {
                     throw new CantGetLockException(MessageConstant.CANT_GET_LOCK);

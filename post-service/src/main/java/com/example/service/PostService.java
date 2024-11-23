@@ -26,6 +26,8 @@ public interface PostService {
 
     PostVO getPostById(Long id);
 
-    Void update(long Id);
+    void update(long Id);
+
+    void updateUsername(Long Id, String username);
 
 }
