@@ -163,4 +163,7 @@
 
         </dependencies>
     </dependencyManagement>
+<!--    <dependencies>-->
+
+<!--    </dependencies>-->
 </project>

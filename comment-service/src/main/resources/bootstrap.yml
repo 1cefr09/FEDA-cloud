@@ -21,3 +21,6 @@ spring:
           - dataId: shared_seata.yml
             group: DEFAULT_GROUP
             refresh: true
+          - dataId: shared_rabbitmq.yml
+            group: DEFAULT_GROUP
+            refresh: true
