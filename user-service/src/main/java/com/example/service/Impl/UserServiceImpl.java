@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getById(id);
         String lockKey = null;
 
-        try {
+        try {//加锁防止并发情况下更新用户名时出现重复
             if (!userDTO.getUsername().isEmpty()){
                 //获取锁并且判断锁是否获得成功
                 lockKey = "usernameLock" + userDTO.getUsername();

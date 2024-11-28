@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.startup.UserConfig;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -47,13 +48,16 @@ public class CommentServiceImpl implements CommentService {
 
     private final PostClient postClient;
 
+    private final RabbitTemplate rabbitTemplate;
+
     @Autowired
-    public CommentServiceImpl(CommentMapper commentMapper, StringRedisTemplate redisTemplate, RedissonClient redissonClient, UserClient userClient, PostClient postClient) {
+    public CommentServiceImpl(CommentMapper commentMapper, StringRedisTemplate redisTemplate, RedissonClient redissonClient, UserClient userClient, PostClient postClient, RabbitTemplate rabbitTemplate) {
         this.commentMapper = commentMapper;
         this.userClient = userClient;
         this.postClient = postClient;
         this.redisTemplate = redisTemplate;
         this.redissonClient = redissonClient;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     /**
@@ -116,7 +120,13 @@ public class CommentServiceImpl implements CommentService {
                     comment.setFloor(newFloor);
                     // 保存实体到数据库
                     commentMapper.insert(comment);
-                    postClient.update(commentDTO.getPostId());
+//                    postClient.update(commentDTO.getPostId());
+                    try {//不用RPC调用，使用MQ发送消息
+                        rabbitTemplate.convertAndSend("post.topic", "post.update", commentDTO.getPostId());
+                    } catch (Exception e) {
+                        log.error("Comment服务向Mq发送消息失败", e);
+                    }
+
                 } finally {
                     lock.unlock();
                 }

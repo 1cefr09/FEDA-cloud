@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.example.config.WebConfig,\
-    com.example.config.AopConfig
+    com.example.config.AopConfig,\
+    com.example.config.MessageConverterConfig
