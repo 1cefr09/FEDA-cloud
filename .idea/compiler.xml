@@ -16,6 +16,7 @@
         <module name="FEDA-server" />
         <module name="FEDA-pojo" />
         <module name="gateway" />
+        <module name="admin-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11">
@@ -27,6 +28,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="FEDA-api" options="-parameters" />
       <module name="FEDA-server" options="-parameters" />
+      <module name="admin-service" options="-parameters" />
       <module name="category-service" options="-parameters" />
       <module name="comment-service" options="-parameters" />
       <module name="gateway" options="-parameters" />

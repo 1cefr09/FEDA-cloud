@@ -63,4 +63,8 @@ public interface UserMapper {
 
     void unBanUsers(@Param("currentTime") Date currentTime);
 
+    void unBanUser(@Param("id") Long id);
+
+    void banUser(@Param("id") Long id, @Param(("unbanTime")) Date unbanTime);
+
 }

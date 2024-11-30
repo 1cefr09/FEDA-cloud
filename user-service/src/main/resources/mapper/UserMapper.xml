@@ -69,4 +69,14 @@
         SET is_banned = FALSE, unban_time = NULL
         WHERE is_banned = TRUE AND unban_time IS NOT NULL AND unban_time &lt;= #{currentTime}
     </update>
+    <update id="unBanUser">
+        UPDATE user
+        SET is_banned = FALSE, unban_time = NULL
+        WHERE id = #{id}
+    </update>
+    <update id="banUser">
+        UPDATE user
+        SET is_banned = TRUE, unban_time = #{unbanTime}
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -22,6 +22,7 @@
         <module>category-service</module>
         <module>comment-service</module>
         <module>FEDA-api</module>
+        <module>admin-service</module>
     </modules>
     <properties>
         <mybatis.spring>2.2.0</mybatis.spring>

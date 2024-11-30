@@ -1,7 +1,7 @@
 package com.example.listener;
 
 import com.example.entity.User;
-import com.example.service.PostService;
+import com.example.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
@@ -16,31 +16,21 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PostListener {
+public class CommentListener {
 
-    private final PostService postService;
-
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "post.update.queue", durable = "true"),
-            exchange = @Exchange(name = "post.topic", type = ExchangeTypes.TOPIC),
-            key = {"post.update"}
-    ))
-    public void updatePost(Long postId) {
-        log.info("update post: {}", postId);
-        postService.update(postId);
-    }
+    private final CommentService commentService;
 
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "post.updateUsername.queue", durable = "true"),
-            exchange = @Exchange(name = "post.topic", type = ExchangeTypes.TOPIC),
-            key = {"post.updateUsername"}
+            value = @Queue(name = "comment.updateUsername.queue", durable = "true"),
+            exchange = @Exchange(name = "comment.topic", type = ExchangeTypes.TOPIC),
+            key = {"comment.updateUsername"}
     ))
     public void updateUsername(User user) {
         Long userId = user.getId();
         String username = user.getUsername();
         log.info("update username: {}", userId);
-        postService.updateUsername(userId, username);
+        commentService.updateUsername(userId, username);
     }
 
 }

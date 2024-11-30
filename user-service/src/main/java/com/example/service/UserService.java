@@ -1,9 +1,12 @@
 package com.example.service;
 
+import com.example.dto.AdminActionDTO;
 import com.example.dto.UserDTO;
 import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
 import com.example.vo.UserVO;
+
+import java.util.Date;
 
 
 public interface UserService {
@@ -23,5 +26,9 @@ public interface UserService {
     UserVO updateUser(long id ,UserDTO userDTO);
 
     void unBanUsers();
+
+    void unBanUser(long id);
+
+    void banUser(AdminActionDTO adminActionDTO);
 
 }

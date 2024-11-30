@@ -1,8 +1,10 @@
 package com.example.service.Impl;
 
-import com.example.client.CommentClient;
+//import com.example.client.CommentClient;
 import com.example.client.PostClient;
 import com.example.constant.MessageConstant;
+import com.example.context.BaseContext;
+import com.example.dto.AdminActionDTO;
 import com.example.dto.UserDTO;
 import com.example.dto.UserLoginDTO;
 import com.example.entity.User;
@@ -14,7 +16,7 @@ import com.example.vo.UserVO;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.checkerframework.checker.units.qual.A;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -49,8 +50,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PostClient postClient;
 
+//    @Autowired
+//    CommentClient commentClient;
+
     @Autowired
-    CommentClient commentClient;
+    RabbitTemplate rabbitTemplate;
 
     @Override
     public void UserRegister(UserDTO userDTO){
@@ -173,8 +177,14 @@ public class UserServiceImpl implements UserService {
                     }
                     InfoIsValidUtil.isValidUsername(userDTO.getUsername());
                     if (!user.getUsername().equals(userDTO.getUsername())){
-                        postClient.updateUsername(user.getId(),userDTO.getUsername());
-                        commentClient.updateUsername(user.getId(),userDTO.getUsername());
+//                        postClient.updateUsername(user.getId(),userDTO.getUsername());
+                        //使用mq会存在事务不一致问题
+                        User msg = new User();
+                        msg.setId(user.getId());
+                        msg.setUsername(userDTO.getUsername());
+                        rabbitTemplate.convertAndSend("post.topic","post.updateUsername",msg);
+//                        commentClient.updateUsername(user.getId(),userDTO.getUsername());
+                        rabbitTemplate.convertAndSend("comment.topic","comment.updateUsername",msg);
                     }
                     user.setUsername(userDTO.getUsername());
                 }else {
@@ -217,6 +227,47 @@ public class UserServiceImpl implements UserService {
     public void unBanUsers() {
         Date now = new Date();
         userMapper.unBanUsers(now);
+    }
+
+    @Override
+    public void unBanUser(long id) {
+        userMapper.unBanUser(id);
+    }
+
+    @Override
+    public void banUser(AdminActionDTO adminActionDTO) {
+        String banTime = adminActionDTO.getBanTime();
+        Long targetId = adminActionDTO.getTargetId();
+        if("Permanently".equals(banTime)) {
+            userMapper.banUser(targetId,null);
+        }else{
+            Date unbanTime = getUnbanTime(adminActionDTO.getBanTime());
+            userMapper.banUser(targetId,unbanTime);
+        }
+
+
+    }
+
+    private Date getUnbanTime(String banTime) {
+        long duration = 0;
+        switch (banTime) {
+            case "Minute":
+                duration = 60 * 1000L;
+                break;
+            case "Day":
+                duration = 24 * 60 * 60 * 1000L;
+                break;
+            case "Week":
+                duration = 7 * 24 * 60 * 60 * 1000L;
+                break;
+            case "Month":
+                duration = 30 * 24 * 60 * 60 * 1000L; // 这里假设一个月为30天
+                break;
+            case "Year":
+                duration = 365 * 24 * 60 * 60 * 1000L; // 这里假设一年为365天
+                break;
+        }
+        return new Date(System.currentTimeMillis() + duration);
     }
 
 
